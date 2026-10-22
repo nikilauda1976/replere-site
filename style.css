@@ -1,7 +1,8 @@
-/* Replere : le site reprend la direction artistique de l'app (DESIGN.md).
-   Chaque page dans sa couleur vive, sans noir, jaune Replere pour l'action,
-   une seule famille (SF Pro), cartes en verre. Aucune ressource externe :
-   ni police téléchargée, ni traceur ; un seul script maison (effets.js), sans dépendance. */
+/* Replere : direction artistique éditoriale depuis le 22 octobre 2026 (voir la dernière section du
+   fichier, qui l'emporte sur les précédentes) : pages de lecture en crème, blocs « chapitre » sombres,
+   quatre accents (un par temps), titres en Instrument Serif, jaune Replere pour l'action.
+   Aucune ressource externe : polices servies par le site, aucun traceur, un seul script maison
+   (effets.js), sans dépendance. */
 
 /* Les titres en New York, la serif d'Apple (ui-serif) : fournie par le système sur iPhone, iPad et Mac,
    rien à télécharger. Ailleurs, Iowan Old Style puis Georgia prennent le relais. */
@@ -465,3 +466,130 @@ body.home::after { content: ""; position: fixed; inset: 0; pointer-events: none;
   /* Le téléphone sort par le bas de la carte, comme une photo recadrée. */
   .pile-carte .phone { width: min(230px, 62vw); margin-bottom: -40%; }
 }
+
+/* ════════════════════════════════════════════════════════════════════════════════════════════════
+   DIRECTION ARTISTIQUE ÉDITORIALE (22 octobre 2026), d'après le rapport « Overcommitted » de Superside
+   (février 2025). Cette couche, en dernier, l'emporte sur ce qui précède.
+   - Pages de lecture en crème, texte vert nuit. Le jaune Replere reste celui des boutons ; les liens
+     passent en bleu pétrole (le jaune sur crème ne se lit pas).
+   - Blocs « chapitre » sombres : l'ouverture de l'accueil, les cartes empilées, le cœur en direct,
+     les tuiles, le bloc final. Vert nuit, vert forêt, bleu pétrole, brun nuit.
+   - Quatre accents, un par temps de la journée : ciel (Apprendre), menthe (Respirer), rose
+     (Réfléchir), anis (Le bilan).
+   - Titres en Instrument Serif (licence OFL, servie par le site), l'italique pour le mot qui compte ;
+     le mot géant répété en fond des ouvertures (.motif).
+   ════════════════════════════════════════════════════════════════════════════════════════════════ */
+@font-face { font-family: "Instrument Serif"; src: url("fonts/instrument-serif-400.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url("fonts/instrument-serif-400-italic.woff2") format("woff2");
+  font-weight: 400; font-style: italic; font-display: swap; }
+
+:root {
+  --creme: #F7F9F2; --nuit: #0A211F; --foret: #2A4E45; --petrole: #19546E; --brun: #292423;
+  --ciel: #A1D4FF; --menthe: #8DFDBA; --rose: #FFAFED; --anis: #D8FF85;
+  --serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --paper: var(--nuit); --paper-2: rgba(10, 33, 31, .80); --paper-3: rgba(10, 33, 31, .62);
+  --glass: rgba(10, 33, 31, .05); --hairline: rgba(10, 33, 31, .14); --lien: var(--petrole);
+}
+html, html:has(body.home) { background-color: var(--creme); }
+body, body.home, body.help, body.privacy, body.terms, body.legal {
+  background: var(--creme); background-image: none; color: var(--paper);
+}
+body.home::before, body.home::after { content: none; }
+
+/* Le texte clair sur fond sombre, partout où un bloc « chapitre » s'ouvre. */
+.sombre, body.home .hero, .pile-carte, .coeur, .final, .card.accent, .tile {
+  --paper: var(--creme); --paper-2: rgba(247, 249, 242, .84); --paper-3: rgba(247, 249, 242, .66);
+  --hairline: rgba(247, 249, 242, .18); --glass: rgba(247, 249, 242, .08); --lien: var(--anis);
+  color: var(--paper);
+}
+
+a { color: var(--lien); }
+a:focus-visible, button:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline-color: var(--petrole); }
+.sombre a:focus-visible, .hero a:focus-visible, .final a:focus-visible { outline-color: var(--anis); }
+
+/* Titres */
+h1, h2, .final h2, .article h2 { font-family: var(--serif); font-weight: 400; letter-spacing: -.01em; }
+h1 { font-size: clamp(2.7rem, 7vw, 4rem); line-height: 1; }
+h2 { font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.04; }
+h1 em, h2 em, h3 em { font-style: italic; }
+.eyebrow, .guide-card .kicker, .summary strong, .article.important .n { color: var(--petrole); }
+.sombre .eyebrow, body.home .hero .eyebrow { color: var(--anis); }
+
+/* En-tête : une bande crème et un filet, comme l'en-tête des pages du rapport */
+header { background: rgba(247, 249, 242, .86); border-bottom: 1px solid var(--hairline); box-shadow: none; }
+.logo { color: var(--paper); }
+nav a { color: var(--paper-2); }
+nav a:hover { background: rgba(10, 33, 31, .06); color: var(--paper); }
+nav a[aria-current="page"] { background: var(--nuit); color: var(--creme); box-shadow: none; }
+
+/* Cartes de lecture : blanches, filet fin, sans verre (le verre n'a rien à flouter sur du crème) */
+.card, .tile, .coeur, .mot, .plan, .guide-card, .duo, header { -webkit-backdrop-filter: none; backdrop-filter: none; }
+.card, .mot, .plan, .guide-card, .duo, .article, .scroll, .coeur, .tile { box-shadow: none; }
+.card, .mot, .plan, .guide-card, .duo, .article, .scroll { background: #FFFFFF; border: 1px solid var(--hairline); }
+.guide-card .more { color: var(--petrole); }
+.guide-card:hover { border-color: var(--petrole); }
+.card.warn { background: #FCEFF8; border-color: #F2C3E6; }
+.plan.pro { background: #F1FADF; border-color: #CDE89A; }
+.plan .tag { background: rgba(10, 33, 31, .06); color: var(--paper-2); }
+.plan.pro .tag { background: var(--nuit); color: var(--creme); }
+.article.important { border-color: var(--petrole); }
+.card.accent { background: var(--foret); border-color: transparent; }
+footer { border-top-color: var(--hairline); }
+
+/* Tuiles : des ouvertures de chapitre en petit, chacune dans sa couleur, le chiffre en accent */
+.tile { border-color: transparent; }
+.t-blue { background: var(--petrole); } .t-blue .k { color: var(--ciel); }
+.t-mint { background: var(--foret); } .t-mint .k { color: var(--menthe); }
+.t-lilac { background: var(--brun); } .t-lilac .k { color: var(--rose); }
+.t-orange { background: var(--nuit); } .t-orange .k { color: var(--anis); }
+.t-pink { background: #3A2834; } .t-pink .k { color: var(--rose); }
+.tile .tag, .intents .tag { background: rgba(247, 249, 242, .12); }
+.grid .tile .k { font-family: var(--serif); font-weight: 400; font-size: clamp(3rem, 6vw, 4.4rem); letter-spacing: -.02em; }
+.tile h3 { font-family: var(--serif); font-weight: 400; font-size: 1.6rem; line-height: 1.05; }
+.intents .feature h3 { font-size: 2.2rem; }
+
+/* Le mot géant répété, en fond des blocs sombres */
+.motif { position: absolute; inset: -12% -4%; z-index: -1; pointer-events: none; user-select: none;
+  font-family: var(--serif); font-style: italic; font-size: clamp(4.5rem, 13vw, 12rem); line-height: .9;
+  color: rgba(247, 249, 242, .055); word-break: break-all; overflow: hidden; }
+
+/* L'ouverture de l'accueil */
+body.home .hero { position: relative; isolation: isolate; overflow: hidden; background: var(--nuit);
+  border-radius: 36px; padding: clamp(28px, 5vw, 72px); margin-top: -18px; }
+body.home .hero h1 em { color: var(--anis); }
+body.home .hero .motif { color: rgba(216, 255, 133, .06); }
+.phone { box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .22), inset 0 0 0 4px #060607, 0 34px 70px rgba(10, 33, 31, .35); }
+
+/* Les cartes empilées : une ouverture de chapitre par temps */
+.pile-carte { background: var(--nuit); border-color: rgba(247, 249, 242, .10); box-shadow: 0 -16px 40px rgba(10, 33, 31, .22); }
+.pile-carte::after { content: none; }
+.pile-apprendre { background: var(--petrole); --accent: var(--ciel); }
+.pile-respirer { background: var(--foret); --accent: var(--menthe); }
+.pile-reflechir { background: var(--brun); --accent: var(--rose); }
+.pile-bilan { background: var(--nuit); --accent: var(--anis); }
+.pile-num { display: block; padding: 0; background: none; border-radius: 0; font-family: var(--serif); font-weight: 400;
+  font-size: clamp(2.6rem, 5vw, 4.6rem); line-height: 1; letter-spacing: 0; text-transform: none; color: var(--accent); }
+.pile-duree { display: inline-block; margin-top: 14px; font-size: .78rem; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(247, 249, 242, .3); color: var(--paper); }
+.pile-carte h3 { color: var(--accent); margin-top: 10px; }
+.pile-carte .motif { color: rgba(247, 249, 242, .05); }
+
+/* Le cœur en direct : un graphique sur fond nuit, la courbe en menthe */
+.coeur { background: var(--nuit); border: 0; }
+.coeur .ligne { stroke: var(--menthe); }
+.coeur .point { fill: var(--menthe); }
+.coeur .halo { fill: rgba(141, 253, 186, .25); }
+.coeur stop { stop-color: var(--menthe); }
+
+/* Les soulignés dessinés : pétrole sur crème, anis sur fond sombre */
+.annote .trait path { stroke: var(--petrole); }
+.hero .annote .trait path, .sombre .annote .trait path, .final .annote .trait path { stroke: var(--anis); }
+p .annote.dessine[data-trait] { text-decoration-color: var(--petrole); }
+
+/* Le bloc final */
+.final { background: radial-gradient(120% 90% at 30% 20%, #2A4E45 0%, #12332B 45%, #0A211F 100%); border: 0; }
+
+/* Le logo porte lui-même ses coins arrondis (profil des icônes d'iPhone, scripts/logo-arrondi.py) :
+   pas de second arrondi CSS qui en rognerait la courbe. */
+.logo img { border-radius: 0; }

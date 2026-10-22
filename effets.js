@@ -146,9 +146,9 @@
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
     var loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     var U = {}; ['r', 't', 'm', 'a', 'b', 'c', 's'].forEach(function (k) { U[k] = gl.getUniformLocation(pr, k); });
-    // Les couleurs de Replere : nuit bleue, cobalt, bleu ciel, et une étincelle jaune.
-    gl.uniform3f(U.a, 0.06, 0.08, 0.22); gl.uniform3f(U.b, 0.20, 0.28, 0.62); gl.uniform3f(U.c, 0.52, 0.62, 0.90);
-    gl.uniform3f(U.s, 1.0, 0.86, 0.35);
+    // La direction artistique éditoriale : vert nuit, vert forêt, menthe, et une étincelle anis.
+    gl.uniform3f(U.a, 0.04, 0.13, 0.12); gl.uniform3f(U.b, 0.16, 0.31, 0.27); gl.uniform3f(U.c, 0.42, 0.78, 0.60);
+    gl.uniform3f(U.s, 0.85, 1.0, 0.52);
     var bloc = canvas.parentElement, souris = [0.5, 0.5], cible = [0.5, 0.5];
     function taille() {
       var dpr = Math.min(window.devicePixelRatio || 1, 1.5), rc = bloc.getBoundingClientRect();

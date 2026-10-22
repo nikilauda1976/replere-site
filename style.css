@@ -701,3 +701,21 @@ body.guide main .wrap { max-width: 1180px; }
   .etiquettes li { padding: 9px 14px; font-size: .85rem; }
 }
 @media (max-width: 620px) { .grid.recherche { grid-template-columns: 1fr; } }
+
+/* Sommaire de l'accueil : les chapitres de la page, collés sous l'en-tête, comme la version web du
+   rapport (une ancre par chapitre). Le chapitre lu est en vert nuit, un trait anis suit la lecture. */
+.sommaire { position: sticky; top: var(--entete-fixe, 64px); z-index: 9; margin: 28px 0 0; display: block;
+  background: var(--creme);
+  border-bottom: 1px solid var(--hairline); }
+.sommaire ol { list-style: none; margin: 0; padding: 8px 0; display: flex; gap: 2px; overflow-x: auto;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.sommaire ol::-webkit-scrollbar { display: none; }
+.sommaire li { flex: none; }
+.sommaire a { min-height: 38px; padding: 0 12px; font-size: .82rem; white-space: nowrap; color: var(--paper-2); }
+.sommaire-n { font-family: var(--serif); font-size: 1rem; font-weight: 400; margin-right: 6px; color: var(--paper-3); }
+.sommaire a.actif { background: var(--nuit); color: var(--creme); }
+.sommaire a.actif .sommaire-n { color: var(--anis); }
+.sommaire-progres { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--anis);
+  transform-origin: left; transform: scaleX(var(--lu, 0)); }
+.rubrique { scroll-margin-top: calc(var(--entete, 64px) + 12px); }
+@media (prefers-reduced-motion: no-preference) { html:has(.sommaire) { scroll-behavior: smooth; } }

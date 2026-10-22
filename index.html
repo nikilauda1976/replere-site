@@ -51,7 +51,10 @@
       <div class="phone"><img src="img/app-parcours.jpg?v=4" alt="L'accueil de Replere : l'étape du moment, Apprendre, puis Respirer et Réfléchir, avec la série de jours d'affilée" width="598" height="1300"></div>
     </section>
 
-    <p class="rubrique" aria-hidden="true"><span>Replere</span><span>01 · Après l'effort</span></p>
+    <!-- Sommaire : un chapitre par section, comme la version web du rapport ; il colle sous l'en-tête et suit la lecture (effets.js). -->
+    <nav class="sommaire" aria-label="Sommaire de la page"><ol><li><a href="#effort"><span class="sommaire-n">01</span>Après l'effort</a></li><li><a href="#musique"><span class="sommaire-n">02</span>La musique</a></li><li><a href="#coeur"><span class="sommaire-n">03</span>Le cœur</a></li><li><a href="#journee"><span class="sommaire-n">04</span>La journée</a></li><li><a href="#tete"><span class="sommaire-n">05</span>La tête</a></li><li><a href="#programmes"><span class="sommaire-n">06</span>Programmes</a></li><li><a href="#recherche"><span class="sommaire-n">07</span>La recherche</a></li><li><a href="#prix"><span class="sommaire-n">08</span>Le prix</a></li></ol><span class="sommaire-progres" aria-hidden="true"></span></nav>
+
+    <p class="rubrique" id="effort" aria-hidden="true"><span>Replere</span><span>01 · Après l'effort</span></p>
     <section class="effort" aria-labelledby="titre-effort">
       <div class="effort-texte">
         <h2 id="titre-effort">Ce que l'effort <em>laisse derrière lui</em></h2>
@@ -74,7 +77,7 @@
     <!-- Photo à venir (docs/PHOTOS.md) :
     <figure class="photo"><img src="img/photos/apres-la-course.jpg" alt="…" width="1600" height="1000" loading="lazy"><figcaption>Photo : auteur, licence</figcaption></figure> -->
 
-    <p class="rubrique" aria-hidden="true"><span>Replere</span><span>02 · La musique</span></p>
+    <p class="rubrique" id="musique" aria-hidden="true"><span>Replere</span><span>02 · La musique</span></p>
     <h2>La musique <em>de votre semaine</em></h2>
     <p>
       Chaque séance joue une phrase au bol chantant : plus votre cœur redescend, plus elle se pose
@@ -88,7 +91,7 @@
       <figure><div class="phone"><img src="img/app-moi.jpg?v=4" alt="La progression : les trois piliers de la semaine, l'année pratiquée, la série" loading="lazy" width="598" height="1300"></div><figcaption>Ce que vous construisez</figcaption></figure>
     </div>
 
-    <p class="rubrique" aria-hidden="true"><span>Replere</span><span>03 · Le cœur</span></p>
+    <p class="rubrique" id="coeur" aria-hidden="true"><span>Replere</span><span>03 · Le cœur</span></p>
     <section class="live" aria-labelledby="titre-live">
       <h2 id="titre-live">Le cœur qui <span class="annote" data-trait="vague">redescend</span>, en direct</h2>
       <p>Pendant la séance, Replere trace votre fréquence cardiaque. Vous voyez le corps quitter l'effort, respiration après respiration.</p>
@@ -109,7 +112,7 @@
       </figure>
     </section>
 
-    <p class="rubrique" aria-hidden="true"><span>Replere</span><span>04 · La journée</span></p>
+    <p class="rubrique" id="journee" aria-hidden="true"><span>Replere</span><span>04 · La journée</span></p>
     <h2>Cinq minutes, <em>une étape à la fois</em></h2>
     <p>Vous ouvrez l'app, un seul bouton. Chaque étape mène à la suivante, et le tout tient en cinq minutes.</p>
     <figure class="cercles">
@@ -159,7 +162,7 @@
       </li>
     </ol>
 
-    <p class="rubrique" aria-hidden="true"><span>Replere</span><span>05 · La tête</span></p>
+    <p class="rubrique" id="tete" aria-hidden="true"><span>Replere</span><span>05 · La tête</span></p>
     <h2>En bonus : <em>la tête aussi</em></h2>
     <p>
       Après l'effort, le corps redescend ; la tête, elle, reste souvent dispersée. Chaque séance
@@ -173,7 +176,7 @@
       <div class="duo"><p class="body"><strong>S'endormir</strong><span>On pose sa journée</span></p><span class="arrow" aria-hidden="true">→</span><p class="mind"><strong>L'avis du jour</strong><span>Construire un avis, sans IA</span></p></div>
     </div>
 
-    <p class="rubrique" aria-hidden="true"><span>Replere</span><span>06 · Programmes</span></p>
+    <p class="rubrique" id="programmes" aria-hidden="true"><span>Replere</span><span>06 · Programmes</span></p>
     <h2>Des programmes, <em>comme un cours</em></h2>
     <p>Un thème, quelques jours, une séance par jour. La longueur de chaque barre, c'est le nombre de jours.</p>
     <ul class="barres">
@@ -183,7 +186,7 @@
       <li class="b-rose" style="--n:7"><span class="barres-n">7<small>jours</small></span><span class="barres-barre" aria-hidden="true"></span><span class="barres-texte"><strong>Esprit critique</strong>Ne plus se faire avoir par les biais et les manipulations.</span></li>
     </ul>
 
-    <p class="rubrique" aria-hidden="true"><span>Replere</span><span>07 · La recherche</span></p>
+    <p class="rubrique" id="recherche" aria-hidden="true"><span>Replere</span><span>07 · La recherche</span></p>
     <h2>Ce que dit la recherche, <em>honnêtement</em></h2>
     <div class="grid recherche">
       <div class="tile t-pink"><div class="k">6</div><h3>respirations par minute</h3><p>Après 10 minutes de vélo, respirer à ce rythme a accéléré le retour au repos du système nerveux, par rapport à une respiration libre. Une petite étude (15 jeunes hommes) : un signal encourageant, pas une preuve définitive.<br><span class="note">Sugimoto et al., « Effects of consciously controlled slow breathing on cardiac parasympathetic nervous activity postexercise in young healthy males », <em>Clinical Physiology and Functional Imaging</em>, 2025. <a href="https://pubmed.ncbi.nlm.nih.gov/40079612/">Lire l'étude</a></span></p></div>
@@ -200,7 +203,7 @@
       </p>
     </div>
 
-    <p class="rubrique" aria-hidden="true"><span>Replere</span><span>08 · Le prix</span></p>
+    <p class="rubrique" id="prix" aria-hidden="true"><span>Replere</span><span>08 · Le prix</span></p>
     <h2>Gratuit <em>pour commencer</em></h2>
     <div class="plans">
       <div class="plan pro">

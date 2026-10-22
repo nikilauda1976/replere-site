@@ -182,7 +182,13 @@
     if (!pile) return;
     var racine = document.documentElement, entete = document.querySelector('header');
     // Les cartes collent juste sous l'en-tête, dont la hauteur change avec la largeur (menu sur deux lignes).
-    function hauteur() { racine.style.setProperty('--entete', (entete ? entete.offsetHeight : 64) + 'px'); }
+    // Sur téléphone, l'en-tête défile avec la page : seul le sommaire reste collé en haut.
+    var sommaire = document.querySelector('.sommaire');
+    function hauteur() {
+      var fixe = entete && getComputedStyle(entete).position === 'sticky' ? entete.offsetHeight : 0;
+      racine.style.setProperty('--entete-fixe', fixe + 'px');
+      racine.style.setProperty('--entete', (fixe + (sommaire ? sommaire.offsetHeight : 0) || 64) + 'px');
+    }
     hauteur();
     window.addEventListener('resize', hauteur);
     if (reduit) return;
@@ -200,6 +206,37 @@
     window.addEventListener('scroll', function () {
       if (!demande) { demande = true; requestAnimationFrame(maj); }
     }, { passive: true });
+    maj();
+  })();
+
+  /* ── Sommaire : le chapitre en cours de lecture, et la part de page lue ── */
+  (function () {
+    var nav = document.querySelector('.sommaire');
+    if (!nav) return;
+    var liens = [].slice.call(nav.querySelectorAll('a'));
+    var cibles = liens.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+    var demande = false, actuel = -1;
+    function maj() {
+      demande = false;
+      var haut = nav.getBoundingClientRect().bottom + 40, i = -1;
+      for (var k = 0; k < cibles.length; k++) if (cibles[k] && cibles[k].getBoundingClientRect().top <= haut) i = k;
+      if (i !== actuel) {
+        actuel = i;
+        liens.forEach(function (a, k) {
+          a.classList.toggle('actif', k === i);
+          if (k === i) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+        });
+        // Sur téléphone, le sommaire défile de côté : on garde le chapitre lu en vue, sans bouger la page.
+        if (i >= 0) {
+          var ol = nav.firstElementChild, a = liens[i];
+          ol.scrollLeft = a.offsetLeft - (ol.clientWidth - a.offsetWidth) / 2;
+        }
+      }
+      var fin = document.documentElement.scrollHeight - innerHeight;
+      nav.style.setProperty('--lu', fin > 0 ? Math.min(1, scrollY / fin).toFixed(3) : 0);
+    }
+    window.addEventListener('scroll', function () { if (!demande) { demande = true; requestAnimationFrame(maj); } }, { passive: true });
+    window.addEventListener('resize', maj);
     maj();
   })();
 })();

@@ -26,7 +26,8 @@
 <link rel="apple-touch-icon" href="img/icone-iphone-180.png">
 <link rel="preload" href="fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=20261023a">
+<link rel="preload" href="fonts/instrument-serif-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css?v=20261023b">
 </head>
 <body class="home">
 <a class="skip" href="#contenu">Aller au contenu</a>
@@ -48,14 +49,15 @@
           fait redescendre le cœur, puis un court exercice remet la tête en route. Et votre semaine
           de pratique compose une musique que personne d'autre n'a.
         </p>
-        <a class="cta" href="https://testflight.apple.com/join/Gd9Skxgv" rel="noopener">Rejoindre la bêta <span class="dot" aria-hidden="true"></span></a>
+        <div class="cta-rang"><a class="cta" href="https://testflight.apple.com/join/Gd9Skxgv" rel="noopener">Rejoindre la bêta <span class="dot" aria-hidden="true"></span></a><div class="qr"><img src="img/qr-beta.svg" alt="QR code du lien de la bêta TestFlight" width="104" height="104"><p>Sur ordinateur ? Scannez ce code avec l'appareil photo de votre iPhone.</p></div></div>
         <p class="note cta-note">Gratuit, sur iPhone. Bientôt sur l'App Store ; en attendant, la bêta passe par TestFlight, l'app de test d'Apple : installez-la, puis touchez le bouton depuis votre iPhone.</p>
+        <p class="note prevenir">Pas encore prêt ? <a href="mailto:contact@replere.app?subject=Pr%C3%A9venez-moi%20%C3%A0%20la%20sortie%20de%20Replere&amp;body=Bonjour%2C%20pr%C3%A9venez-moi%20quand%20Replere%20sort%20sur%20l%27App%20Store.">Recevez un email le jour de la sortie.</a></p>
       </div>
       <div class="phone"><img src="img/app-parcours.jpg?v=5" alt="L'accueil de Replere : l'étape du moment, Apprendre, puis Respirer et Réfléchir, avec la série de jours d'affilée" width="598" height="1300"></div>
     </section>
 
     <!-- Sommaire : un chapitre par section, comme la version web du rapport ; il colle sous l'en-tête et suit la lecture (effets.js). -->
-    <nav class="sommaire" aria-label="Sommaire de la page"><ol><li><a href="#effort"><span class="sommaire-n">01</span>Après l'effort</a></li><li><a href="#musique"><span class="sommaire-n">02</span>La musique</a></li><li><a href="#coeur"><span class="sommaire-n">03</span>Le cœur</a></li><li><a href="#journee"><span class="sommaire-n">04</span>La journée</a></li><li><a href="#tete"><span class="sommaire-n">05</span>La tête</a></li><li><a href="#programmes"><span class="sommaire-n">06</span>Programmes</a></li><li><a href="#recherche"><span class="sommaire-n">07</span>La recherche</a></li><li><a href="#prix"><span class="sommaire-n">08</span>Le prix</a></li></ol><span class="sommaire-progres" aria-hidden="true"></span></nav>
+    <nav class="sommaire" aria-label="Sommaire de la page"><ol><li><a href="#effort"><span class="sommaire-n">01</span>Après l'effort</a></li><li><a href="#journee"><span class="sommaire-n">02</span>La journée</a></li><li><a href="#coeur"><span class="sommaire-n">03</span>Le cœur</a></li><li><a href="#musique"><span class="sommaire-n">04</span>La musique</a></li><li><a href="#programmes"><span class="sommaire-n">05</span>Programmes</a></li><li><a href="#recherche"><span class="sommaire-n">06</span>La recherche</a></li><li><a href="#prix"><span class="sommaire-n">07</span>Le prix</a></li></ol><span class="sommaire-progres" aria-hidden="true"></span></nav>
 
     <p class="rubrique" id="effort" aria-hidden="true"><span>Replere</span><span>01 · Après l'effort</span></p>
     <section class="effort" aria-labelledby="titre-effort">
@@ -89,42 +91,7 @@
       </div>
     </section>
 
-    <p class="rubrique" id="musique" aria-hidden="true"><span>Replere</span><span>02 · La musique</span></p>
-    <h2>La musique <em>de votre semaine</em></h2>
-    <p>
-      Chaque séance joue une phrase au bol chantant : plus votre cœur redescend, plus elle se pose
-      loin. Chaque exercice ajoute des clochettes, et les jours de repos sont des silences. Le
-      dimanche, vous écoutez une musique composée par votre corps : la preuve, à l'oreille, de
-      votre régularité.
-    </p>
-    <div class="shots">
-      <figure><div class="phone"><img src="img/app-notes.jpg?v=6" alt="Votre musique : la semaine mise en notes, prête à écouter" loading="lazy" width="598" height="1300"></div><figcaption>Votre musique</figcaption></figure>
-      <figure><div class="phone"><img src="img/app-musique.jpg?v=5" alt="La musique de la semaine : le bras se pose et le disque tourne, chaque note s'allume en passant" loading="lazy" width="598" height="1300"></div><figcaption>Le disque de la semaine</figcaption></figure>
-      <figure><div class="phone"><img src="img/app-moi.jpg?v=6" alt="La progression : les trois piliers de la semaine, l'année pratiquée, la série" loading="lazy" width="598" height="1300"></div><figcaption>Ce que vous construisez</figcaption></figure>
-    </div>
-
-    <p class="rubrique" id="coeur" aria-hidden="true"><span>Replere</span><span>03 · Le cœur</span></p>
-    <section class="live" aria-labelledby="titre-live">
-      <h2 id="titre-live">Le cœur qui <span class="annote" data-trait="vague">redescend</span>, en direct</h2>
-      <p>Pendant la séance, Replere trace votre fréquence cardiaque. Vous voyez le corps quitter l'effort, respiration après respiration.</p>
-      <figure id="coeur-live" class="coeur">
-        <div class="coeur-tete">
-          <span class="pastille" aria-hidden="true"></span><span>Séance « Jambes légères »</span>
-          <span class="chrono">0:00</span>
-        </div>
-        <div class="coeur-bpm"><span class="bpm-valeur">158</span><span class="bpm-unite">bpm</span></div>
-        <svg viewBox="0 0 600 220" preserveAspectRatio="none" role="img" aria-label="Courbe d'exemple : la fréquence cardiaque passe d'environ 158 à 96 battements par minute en un peu plus de deux minutes.">
-          <defs><linearGradient id="aire-coeur" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD84D" stop-opacity=".35"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></linearGradient></defs>
-          <path class="aire" d="" fill="url(#aire-coeur)"/>
-          <path class="ligne" d="" fill="none"/>
-          <circle class="halo" r="12" cx="0" cy="0"/>
-          <circle class="point" r="5" cx="0" cy="0"/>
-        </svg>
-        <figcaption class="note">Exemple simulé d'une récupération après une course. Avec une montre ou une ceinture cardio, c'est votre propre courbe.</figcaption>
-      </figure>
-    </section>
-
-    <p class="rubrique" id="journee" aria-hidden="true"><span>Replere</span><span>04 · La journée</span></p>
+    <p class="rubrique" id="journee" aria-hidden="true"><span>Replere</span><span>02 · La journée</span></p>
     <h2>Cinq minutes, <em>une étape à la fois</em></h2>
     <p>Vous ouvrez l'app, un seul bouton. Chaque étape mène à la suivante, et le tout tient en cinq minutes.</p>
     <figure class="cercles">
@@ -173,22 +140,48 @@
         <div class="phone"><img src="img/app-bilan.jpg?v=5" alt="Le bilan du jour : journée réussie, « Bravo » écrit à la main, et ce que vous retenez" loading="lazy" width="598" height="1300"></div>
       </li>
     </ol>
-
-    <p class="rubrique" id="tete" aria-hidden="true"><span>Replere</span><span>05 · La tête</span></p>
-    <h2>En bonus : <em>la tête aussi</em></h2>
-    <p>
-      Après l'effort, le corps redescend ; la tête, elle, reste souvent dispersée. Chaque séance
-      est suivie d'un exercice d'une minute, choisi pour l'état dans lequel elle vous laisse.
-      Facultatif, mais c'est souvent ce qu'on finit par préférer.
-    </p>
-    <div class="duos">
-      <div class="duo"><p class="body"><strong>Après l'effort</strong><span>Le corps redescend</span></p><span class="arrow" aria-hidden="true">→</span><p class="mind"><strong>Souffle et chiffres</strong><span>Court et léger, la tête fatiguée</span></p></div>
-      <div class="duo"><p class="body"><strong>Apaiser</strong><span>Le calme revient</span></p><span class="arrow" aria-hidden="true">→</span><p class="mind"><strong>Vrai ou manipulé ?</strong><span>Les messages qui jouent sur nos émotions</span></p></div>
-      <div class="duo"><p class="body"><strong>Se préparer</strong><span>L'esprit se concentre</span></p><span class="arrow" aria-hidden="true">→</span><p class="mind"><strong>Le Piège</strong><span>Les biais, avant une décision</span></p></div>
-      <div class="duo"><p class="body"><strong>S'endormir</strong><span>On pose sa journée</span></p><span class="arrow" aria-hidden="true">→</span><p class="mind"><strong>L'avis du jour</strong><span>Construire un avis, sans IA</span></p></div>
+    <div class="relance">
+      <p>Cinq minutes par jour, juste après le sport. <strong>Gratuit pendant la bêta.</strong></p>
+      <a class="cta" href="https://testflight.apple.com/join/Gd9Skxgv" rel="noopener">Rejoindre la bêta <span class="dot" aria-hidden="true"></span></a>
+      <div class="qr"><img src="img/qr-beta.svg" alt="QR code du lien de la bêta TestFlight" width="104" height="104"><p>Sur ordinateur ? Scannez ce code avec l'appareil photo de votre iPhone.</p></div>
     </div>
 
-    <p class="rubrique" id="programmes" aria-hidden="true"><span>Replere</span><span>06 · Programmes</span></p>
+    <p class="rubrique" id="coeur" aria-hidden="true"><span>Replere</span><span>03 · Le cœur</span></p>
+    <section class="live" aria-labelledby="titre-live">
+      <h2 id="titre-live">Le cœur qui <span class="annote" data-trait="vague">redescend</span>, en direct</h2>
+      <p>Pendant la séance, Replere trace votre fréquence cardiaque. Vous voyez le corps quitter l'effort, respiration après respiration.</p>
+      <figure id="coeur-live" class="coeur">
+        <div class="coeur-tete">
+          <span class="pastille" aria-hidden="true"></span><span>Séance « Jambes légères »</span>
+          <span class="chrono">0:00</span>
+        </div>
+        <div class="coeur-bpm"><span class="bpm-valeur">158</span><span class="bpm-unite">bpm</span></div>
+        <svg viewBox="0 0 600 220" preserveAspectRatio="none" role="img" aria-label="Courbe d'exemple : la fréquence cardiaque passe d'environ 158 à 96 battements par minute en un peu plus de deux minutes.">
+          <defs><linearGradient id="aire-coeur" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD84D" stop-opacity=".35"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></linearGradient></defs>
+          <path class="aire" d="" fill="url(#aire-coeur)"/>
+          <path class="ligne" d="" fill="none"/>
+          <circle class="halo" r="12" cx="0" cy="0"/>
+          <circle class="point" r="5" cx="0" cy="0"/>
+        </svg>
+        <figcaption class="note">Exemple simulé d'une récupération après une course. Avec une montre ou une ceinture cardio, c'est votre propre courbe.</figcaption>
+      </figure>
+    </section>
+
+    <p class="rubrique" id="musique" aria-hidden="true"><span>Replere</span><span>04 · La musique</span></p>
+    <h2>La musique <em>de votre semaine</em></h2>
+    <p>
+      Chaque séance joue une phrase au bol chantant : plus votre cœur redescend, plus elle se pose
+      loin. Chaque exercice ajoute des clochettes, et les jours de repos sont des silences. Le
+      dimanche, vous écoutez une musique composée par votre corps : la preuve, à l'oreille, de
+      votre régularité.
+    </p>
+    <div class="shots">
+      <figure><div class="phone"><img src="img/app-notes.jpg?v=6" alt="Votre musique : la semaine mise en notes, prête à écouter" loading="lazy" width="598" height="1300"></div><figcaption>Votre musique</figcaption></figure>
+      <figure><div class="phone"><img src="img/app-musique.jpg?v=5" alt="La musique de la semaine : le bras se pose et le disque tourne, chaque note s'allume en passant" loading="lazy" width="598" height="1300"></div><figcaption>Le disque de la semaine</figcaption></figure>
+      <figure><div class="phone"><img src="img/app-moi.jpg?v=6" alt="La progression : les trois piliers de la semaine, l'année pratiquée, la série" loading="lazy" width="598" height="1300"></div><figcaption>Ce que vous construisez</figcaption></figure>
+    </div>
+
+    <p class="rubrique" id="programmes" aria-hidden="true"><span>Replere</span><span>05 · Programmes</span></p>
     <h2>Des programmes, <em>comme un cours</em></h2>
     <p>Un thème, quelques jours, une séance par jour. La longueur de chaque barre, c'est le nombre de jours.</p>
     <ul class="barres">
@@ -198,7 +191,7 @@
       <li class="b-rose" style="--n:7"><span class="barres-n">7<small>jours</small></span><span class="barres-barre" aria-hidden="true"></span><span class="barres-texte"><strong>Esprit critique</strong>Ne plus se faire avoir par les biais et les manipulations.</span></li>
     </ul>
 
-    <p class="rubrique" id="recherche" aria-hidden="true"><span>Replere</span><span>07 · La recherche</span></p>
+    <p class="rubrique" id="recherche" aria-hidden="true"><span>Replere</span><span>06 · La recherche</span></p>
     <h2>Ce que dit la recherche, <em>honnêtement</em></h2>
     <div class="grid recherche">
       <div class="tile t-pink"><div class="k">6</div><h3>respirations par minute</h3><p>Après 10 minutes de vélo, respirer à ce rythme a accéléré le retour au repos du système nerveux, par rapport à une respiration libre. Une petite étude (15 jeunes hommes) : un signal encourageant, pas une preuve définitive.<br><span class="note">Sugimoto et al., « Effects of consciously controlled slow breathing on cardiac parasympathetic nervous activity postexercise in young healthy males », <em>Clinical Physiology and Functional Imaging</em>, 2025. <a href="https://pubmed.ncbi.nlm.nih.gov/40079612/">Lire l'étude</a></span></p></div>
@@ -215,7 +208,7 @@
       </p>
     </div>
 
-    <p class="rubrique" id="prix" aria-hidden="true"><span>Replere</span><span>08 · Le prix</span></p>
+    <p class="rubrique" id="prix" aria-hidden="true"><span>Replere</span><span>07 · Le prix</span></p>
     <h2>Gratuit <em>pour commencer</em></h2>
     <div class="plans">
       <div class="plan pro">
@@ -236,7 +229,6 @@
         <ul>
           <li>Tous les programmes, et un nouveau chaque mois</li>
           <li>Les exercices pour l'esprit sans limite</li>
-          <li>Le coach d'argumentation, sur votre iPhone</li>
           <li>Vos données en détail et l'historique de vos séances</li>
         </ul>
         <p class="note" style="margin-top:12px">Votre musique, elle, ne s'achète pas : elle se compose en pratiquant.</p>
@@ -248,6 +240,7 @@
       <div class="final-contenu">
         <h2>Cinq minutes, <span class="annote" data-trait="cercle">après la séance</span>.</h2>
         <p>Le corps redescend, la tête suit. Gratuit sur iPhone.</p>
+        <p class="note prevenir"><a href="mailto:contact@replere.app?subject=Pr%C3%A9venez-moi%20%C3%A0%20la%20sortie%20de%20Replere&amp;body=Bonjour%2C%20pr%C3%A9venez-moi%20quand%20Replere%20sort%20sur%20l%27App%20Store.">Recevoir un email le jour de la sortie</a></p>
         <a class="cta" href="https://testflight.apple.com/join/Gd9Skxgv" rel="noopener">Rejoindre la bêta <span class="dot" aria-hidden="true"></span></a>
       </div>
     </section>
@@ -283,6 +276,6 @@
     </div>
   </div>
 </footer>
-<script src="effets.js?v=20261023a" defer></script>
+<script src="effets.js?v=20261023b" defer></script>
 </body>
 </html>

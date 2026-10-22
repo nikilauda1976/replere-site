@@ -720,3 +720,21 @@ body.guide main .wrap { max-width: 1180px; }
   transform-origin: left; transform: scaleX(var(--lu, 0)); }
 .rubrique { scroll-margin-top: calc(var(--entete, 64px) + 12px); }
 @media (prefers-reduced-motion: no-preference) { html:has(.sommaire) { scroll-behavior: smooth; } }
+
+/* ════════════════════════════════════════════════════════════════════════════════════════════════
+   RÉÉQUILIBRAGE DES COULEURS (22 octobre 2026). Le vert nuit occupait presque tous les blocs sombres,
+   et l'app, verte elle aussi, s'y fondait. Comme le rapport, on alterne : le vert reste pour
+   l'ouverture, la carte Respirer et le bloc final ; le reste passe en brun, pétrole, blanc et anis.
+   ════════════════════════════════════════════════════════════════════════════════════════════════ */
+.effort { background: var(--brun); }
+.cercles { background: #FFFFFF; color: var(--nuit); border: 1px solid var(--hairline); }
+.cercles-titre em { color: var(--petrole); }
+.cercles-legende { color: rgba(10, 33, 31, .78); border-top-color: var(--hairline); }
+.coeur { background: var(--petrole); }
+.coeur .halo { fill: rgba(141, 253, 186, .3); }
+/* Le bilan, la fin de la journée : la carte vive, en anis, texte vert nuit */
+.pile-bilan { background: var(--anis); color: var(--nuit); --accent: var(--nuit);
+  --paper: var(--nuit); --paper-2: rgba(10, 33, 31, .82); --paper-3: rgba(10, 33, 31, .66); }
+.pile-bilan .pile-duree { border-color: rgba(10, 33, 31, .35); color: var(--nuit); }
+.pile-bilan .motif { color: rgba(10, 33, 31, .07); }
+.pile-bilan p { color: rgba(10, 33, 31, .82); }

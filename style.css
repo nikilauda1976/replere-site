@@ -553,6 +553,7 @@ footer { border-top-color: var(--hairline); }
 .motif { position: absolute; inset: -12% -4%; z-index: -1; pointer-events: none; user-select: none;
   font-family: var(--serif); font-style: italic; font-size: clamp(4.5rem, 13vw, 12rem); line-height: .9;
   color: rgba(247, 249, 242, .055); word-break: break-all; overflow: hidden; }
+.motif::before { content: attr(data-mot); }
 
 /* L'ouverture de l'accueil */
 body.home .hero { position: relative; isolation: isolate; overflow: hidden; background: var(--nuit);

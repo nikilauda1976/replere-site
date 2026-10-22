@@ -738,3 +738,13 @@ body.guide main .wrap { max-width: 1180px; }
 .pile-bilan .pile-duree { border-color: rgba(10, 33, 31, .35); color: var(--nuit); }
 .pile-bilan .motif { color: rgba(10, 33, 31, .07); }
 .pile-bilan p { color: rgba(10, 33, 31, .82); }
+
+/* Le moment d'après : la première vraie photo, à côté d'une phrase en grand */
+.moment { display: grid; gap: 24px 56px; align-items: center; margin-top: 48px; }
+.moment-photo { margin: 0; }
+.moment-photo img { display: block; width: 100%; height: auto; border-radius: 28px; }
+.moment-photo figcaption { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--hairline); font-size: .78rem; color: var(--paper-3); }
+.moment-texte h2 { margin-top: 0; }
+.moment-texte h2 em { color: var(--petrole); }
+.moment-citation { font-family: var(--serif); font-size: clamp(1.8rem, 3.4vw, 2.6rem); line-height: 1.08; color: var(--paper); margin: 12px 0 18px; }
+@media (min-width: 900px) { .moment { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } }

@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=3">
 <link rel="preload" href="fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=20261022h">
+<link rel="stylesheet" href="style.css?v=20261022i">
 </head>
 <body class="home">
 <a class="skip" href="#contenu">Aller au contenu</a>
@@ -76,8 +76,17 @@
         <li class="e-anis" style="--r:2deg;--x:1%">Tête pleine</li>
       </ul>
     </section>
-    <!-- Photo à venir (docs/PHOTOS.md) :
-    <figure class="photo"><img src="img/photos/apres-la-course.jpg" alt="…" width="1600" height="1000" loading="lazy"><figcaption>Photo : auteur, licence</figcaption></figure> -->
+    <section class="moment" aria-labelledby="titre-moment">
+      <figure class="moment-photo">
+        <img src="img/photos/moment-d-apres-1200.jpg" srcset="img/photos/moment-d-apres-720.jpg 720w, img/photos/moment-d-apres-1200.jpg 1200w" sizes="(min-width: 900px) 520px, 100vw" alt="Un jeune homme assis dans l'herbe, au repos, sous un arbre au coucher du soleil" width="1200" height="1500" loading="lazy">
+        <figcaption>Photo Oliver Ragfelt, <a href="https://unsplash.com/photos/man-sitting-on-grass-while-resting-hand-on-knee-during-golden-hour-KvoYEvHWNfg" rel="noopener">Unsplash</a></figcaption>
+      </figure>
+      <div class="moment-texte">
+        <h2 id="titre-moment">Le moment <em>d'après</em></h2>
+        <p class="moment-citation">Assis, le souffle qui revient, le cœur qui ralentit. C'est là que Replere commence.</p>
+        <p>Pas besoin de tapis ni de salle. Cinq minutes, là où vous êtes, juste après avoir arrêté la montre.</p>
+      </div>
+    </section>
 
     <p class="rubrique" id="musique" aria-hidden="true"><span>Replere</span><span>02 · La musique</span></p>
     <h2>La musique <em>de votre semaine</em></h2>
@@ -260,6 +269,6 @@
     <a href="mailto:contact@replere.app">contact@replere.app</a>
   </div>
 </footer>
-<script src="effets.js?v=20261022h" defer></script>
+<script src="effets.js?v=20261022i" defer></script>
 </body>
 </html>

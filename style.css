@@ -770,3 +770,12 @@ footer.pied { background: #0F2220; color: rgba(247,249,242,.72); border-top: 0; 
 .temoignages blockquote { margin: 0; font-family: var(--serif); font-size: 1.5rem; line-height: 1.15; color: var(--paper); }
 .temoignages figcaption { margin-top: 14px; font-size: .8rem; font-weight: 600; color: var(--paper-3); }
 @media (min-width: 900px) { .temoignages { grid-template-columns: repeat(3, 1fr); } }
+
+/* VERT PLUS CLAIR (22 octobre 2026) : le vert nuit #0A211F paraissait presque noir. Les grands
+   blocs reprennent le vert de l'app d'avant (#2D5248 vers #203B34). Le vert nuit reste pour le texte. */
+:root { --vert: #2D5248; --vert-2: #203B34; }
+body.home .hero { background: linear-gradient(180deg, var(--vert) 0%, var(--vert-2) 100%); }
+.final { background: radial-gradient(120% 90% at 30% 20%, #3A6A5D 0%, var(--vert) 45%, var(--vert-2) 100%); }
+footer.pied { background: var(--vert-2); }
+nav a[aria-current="page"], .sommaire a.actif, .plan.pro .tag, .rubrique + .pastille, .barres-texte .pastille-texte { background: var(--vert-2); }
+.moment-seul { grid-template-columns: minmax(0, 1fr) !important; max-width: 760px; }

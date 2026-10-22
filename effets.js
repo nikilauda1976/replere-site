@@ -147,7 +147,7 @@
     var loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     var U = {}; ['r', 't', 'm', 'a', 'b', 'c', 's'].forEach(function (k) { U[k] = gl.getUniformLocation(pr, k); });
     // La direction artistique éditoriale : vert nuit, vert forêt, menthe, et une étincelle anis.
-    gl.uniform3f(U.a, 0.04, 0.13, 0.12); gl.uniform3f(U.b, 0.16, 0.31, 0.27); gl.uniform3f(U.c, 0.42, 0.78, 0.60);
+    gl.uniform3f(U.a, 0.125, 0.231, 0.204); gl.uniform3f(U.b, 0.22, 0.40, 0.35); gl.uniform3f(U.c, 0.42, 0.78, 0.60);
     gl.uniform3f(U.s, 0.85, 1.0, 0.52);
     var bloc = canvas.parentElement, souris = [0.5, 0.5], cible = [0.5, 0.5];
     function taille() {

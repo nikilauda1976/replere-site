@@ -748,3 +748,41 @@ body.guide main .wrap { max-width: 1180px; }
 .moment-texte h2 em { color: var(--petrole); }
 .moment-citation { font-family: var(--serif); font-size: clamp(1.8rem, 3.4vw, 2.6rem); line-height: 1.08; color: var(--paper); margin: 12px 0 18px; }
 @media (min-width: 900px) { .moment { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } }
+
+/* Le sommaire, collé sous l'en-tête : fond plein et ombre légère pour ne jamais se mêler au menu. */
+.sommaire { box-shadow: 0 6px 16px rgba(10, 33, 31, .06); }
+.sommaire a { color: var(--nuit, #0A211F); opacity: .72; }
+.sommaire a:hover, .sommaire a.actif { opacity: 1; }
+
+/* ── Pied de page (inspiré de Superside) ── */
+footer.pied { background: #0F2220; color: rgba(247,249,242,.72); border-top: 0; padding: 56px 0 48px; margin-top: 40px; }
+.pied-grille { display: grid; grid-template-columns: 1.2fr 2fr auto; align-items: end; gap: 28px 40px; }
+.pied-logo { display: inline-flex; align-items: center; gap: 10px; color: #F7F9F2; text-decoration: none;
+  font-family: var(--serif); font-size: 2rem; line-height: 1; }
+.pied-logo img { border-radius: 10px; }
+.pied-marque p { margin: 12px 0 0; font-size: .9rem; }
+.pied-liens { display: flex; flex-wrap: wrap; gap: 6px 22px; }
+.pied-liens a { color: rgba(247,249,242,.72); font-size: .85rem; text-decoration: underline; text-underline-offset: 4px;
+  text-decoration-color: rgba(247,249,242,.35); min-height: 32px; display: inline-flex; align-items: center; }
+.pied-liens a:hover { color: #F7F9F2; text-decoration-color: currentColor; }
+.pied-actions { display: flex; align-items: center; gap: 10px; }
+.pied-rond { width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(247,249,242,.55); color: #F7F9F2;
+  display: inline-flex; align-items: center; justify-content: center; transition: background .2s ease; }
+.pied-rond:hover { background: rgba(247,249,242,.1); }
+.pied-tuile { margin-left: 18px; width: 48px; height: 48px; border-radius: 10px; background: #D8FF85;
+  display: inline-flex; align-items: center; justify-content: center; }
+.pied-tuile img { width: 34px; height: 34px; mix-blend-mode: multiply; }
+@media (max-width: 860px) { .pied-grille { grid-template-columns: 1fr; align-items: start; } }
+
+/* ── Pages légales (inspirées de la politique de Superside) : grand titre, sommaire collé à gauche,
+   sections numérotées, colonne de lecture ── */
+.legal-grille { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 56px; align-items: start; }
+.legal-sommaire { position: sticky; top: calc(var(--entete-fixe, 72px) + 24px); font-size: .88rem; }
+.legal-sommaire p { font-weight: 700; margin: 0 0 10px; }
+.legal-sommaire ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--hairline); }
+.legal-sommaire a { display: block; padding: 6px 0 6px 14px; margin-left: -1px; border-left: 2px solid transparent;
+  text-decoration: none; color: inherit; opacity: .7; }
+.legal-sommaire a.actif { opacity: 1; border-left-color: currentColor; font-weight: 600; }
+.legal-texte { max-width: 68ch; }
+.legal-texte h2 { scroll-margin-top: calc(var(--entete-fixe, 72px) + 20px); }
+@media (max-width: 900px) { .legal-grille { grid-template-columns: 1fr; } .legal-sommaire { position: static; } }

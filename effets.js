@@ -179,19 +179,20 @@
   /* ── Cartes empilées : la carte recouverte recule et s'assombrit ──────── */
   (function () {
     var pile = document.querySelector('.pile');
-    if (!pile) return;
     var racine = document.documentElement, entete = document.querySelector('header');
     // Les cartes collent juste sous l'en-tête, dont la hauteur change avec la largeur (menu sur deux lignes).
     // Sur téléphone, l'en-tête défile avec la page : seul le sommaire reste collé en haut.
     var sommaire = document.querySelector('.sommaire');
     function hauteur() {
-      var fixe = entete && getComputedStyle(entete).position === 'sticky' ? entete.offsetHeight : 0;
+      var pos = entete ? getComputedStyle(entete).position : '';
+      var fixe = (pos === 'sticky' || pos === 'fixed') ? entete.offsetHeight : 0;
       racine.style.setProperty('--entete-fixe', fixe + 'px');
       racine.style.setProperty('--entete', (fixe + (sommaire ? sommaire.offsetHeight : 0) || 64) + 'px');
     }
     hauteur();
     window.addEventListener('resize', hauteur);
-    if (reduit) return;
+    // Le sommaire doit toujours coller SOUS l'en-tête, même sans cartes empilées sur la page.
+    if (!pile || reduit) return;
     var cartes = [].slice.call(pile.querySelectorAll('.pile-carte'));
     var demande = false;
     function maj() {
@@ -238,5 +239,39 @@
     window.addEventListener('scroll', function () { if (!demande) { demande = true; requestAnimationFrame(maj); } }, { passive: true });
     window.addEventListener('resize', maj);
     maj();
+  })();
+
+  /* ── Pages légales : sommaire des sections, collé à gauche (comme Superside) ── */
+  (function () {
+    if (!/\b(privacy|terms|legal)\b/.test(document.body.className)) return;
+    var wrap = document.querySelector('main .wrap');
+    var titres = wrap ? [].slice.call(wrap.querySelectorAll(':scope > h2')) : [];
+    if (titres.length < 4) return;
+    var grille = document.createElement('div'); grille.className = 'legal-grille';
+    var aside = document.createElement('aside'); aside.className = 'legal-sommaire';
+    aside.setAttribute('aria-label', 'Sommaire');
+    aside.innerHTML = '<p>Sommaire</p><ol></ol>';
+    var texte = document.createElement('div'); texte.className = 'legal-texte';
+    var premier = titres[0];
+    while (premier.previousElementSibling && premier.previousElementSibling.tagName !== 'H1' && !premier.previousElementSibling.classList.contains('lead')) {
+      premier = premier.previousElementSibling;
+    }
+    wrap.insertBefore(grille, premier);
+    while (grille.nextSibling) texte.appendChild(grille.nextSibling);
+    grille.appendChild(aside); grille.appendChild(texte);
+    var liste = aside.querySelector('ol'), liens = [];
+    titres.forEach(function (h, i) {
+      if (!h.id) h.id = 'section-' + (i + 1);
+      var li = document.createElement('li'), a = document.createElement('a');
+      a.href = '#' + h.id; a.textContent = h.textContent; li.appendChild(a); liste.appendChild(li); liens.push(a);
+    });
+    if (!('IntersectionObserver' in window)) return;
+    var obs = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        liens.forEach(function (a) { a.classList.toggle('actif', a.getAttribute('href') === '#' + en.target.id); });
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    titres.forEach(function (h) { obs.observe(h); });
   })();
 })();

@@ -22,7 +22,7 @@
 <meta name="theme-color" content="#4862C4">
 <link rel="icon" href="img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=20261022b">
+<link rel="stylesheet" href="style.css?v=20261022c">
 </head>
 <body class="home">
 <a class="skip" href="#contenu">Aller au contenu</a>
@@ -84,18 +84,45 @@
 
     <h2>Cinq minutes, une étape à la fois</h2>
     <p>Vous ouvrez l'app, un seul bouton. Chaque étape mène à la suivante, et le tout tient en cinq minutes.</p>
-    <ol class="flow">
-      <li><div><span class="when">1 minute</span><h3>Apprendre</h3><p>Une idée utile et sourcée : pourquoi expirer longtemps calme le cœur, pourquoi on s'étire mal. On vous redemande celle d'hier, de mémoire.</p></div></li>
-      <li><div><span class="when">3 minutes</span><h3>Respirer</h3><p>La séance de sophrologie, guidée par la voix. Avec une montre, vous voyez le cœur redescendre.</p></div></li>
-      <li><div><span class="when">1 minute</span><h3>Réfléchir</h3><p>Un court exercice pour la tête, adapté à l'état où vous laisse la séance : retenir une liste, refaire un chemin, déjouer un piège.</p></div></li>
-      <li><div><span class="when">En un coup d'œil</span><h3>Le bilan</h3><p>Ce que vous retenez, votre rythme de la semaine, et ce qui vous attend demain.</p></div></li>
+    <!-- Cartes empilées : chacune se pose sur la précédente au défilement (style.css « Cartes empilées », effets.js). -->
+    <ol class="pile">
+      <li class="pile-carte pile-apprendre" style="--i:0">
+        <img class="pile-fond" src="img/pile/apprendre.jpg" alt="" loading="lazy" width="960" height="600">
+        <div class="pile-texte">
+          <span class="pile-num">1 · 1 minute</span>
+          <h3>Apprendre</h3>
+          <p>Une idée utile et sourcée : pourquoi expirer longtemps calme le cœur, pourquoi on s'étire mal. On vous redemande celle d'hier, de mémoire.</p>
+        </div>
+        <div class="phone"><img src="img/app-lecon.jpg?v=2" alt="La leçon du jour : après l'effort, le corps doit redescendre, avec le rappel de la leçon d'hier" loading="lazy" width="598" height="1300"></div>
+      </li>
+      <li class="pile-carte pile-respirer" style="--i:1">
+        <img class="pile-fond" src="img/pile/respirer.jpg" alt="" loading="lazy" width="960" height="600">
+        <div class="pile-texte">
+          <span class="pile-num">2 · 3 minutes</span>
+          <h3>Respirer</h3>
+          <p>La séance de sophrologie, guidée par la voix. Avec une montre, vous voyez le cœur redescendre.</p>
+        </div>
+        <div class="phone"><img src="img/app-player.jpg?v=3" alt="Une séance en cours : la voix guide, le fond respire, le cœur se trace en direct" loading="lazy" width="598" height="1300"></div>
+      </li>
+      <li class="pile-carte pile-reflechir" style="--i:2">
+        <img class="pile-fond" src="img/pile/reflechir.jpg" alt="" loading="lazy" width="960" height="600">
+        <div class="pile-texte">
+          <span class="pile-num">3 · 1 minute</span>
+          <h3>Réfléchir</h3>
+          <p>Un court exercice pour la tête, adapté à l'état où vous laisse la séance : retenir une liste, refaire un chemin, déjouer un piège.</p>
+        </div>
+        <div class="phone"><img src="img/app-exercice.jpg?v=2" alt="L'exercice Les mots : retenir sept mots en quelques secondes, puis les écrire de mémoire" loading="lazy" width="598" height="1300"></div>
+      </li>
+      <li class="pile-carte pile-bilan" style="--i:3">
+        <img class="pile-fond" src="img/pile/bilan.jpg" alt="" loading="lazy" width="960" height="600">
+        <div class="pile-texte">
+          <span class="pile-num">4 · En un coup d'œil</span>
+          <h3>Le bilan</h3>
+          <p>Ce que vous retenez, votre rythme de la semaine, et ce qui vous attend demain.</p>
+        </div>
+        <div class="phone"><img src="img/app-bilan.jpg?v=4" alt="Le bilan du jour : journée réussie, « Bravo » écrit à la main, et ce que vous retenez" loading="lazy" width="598" height="1300"></div>
+      </li>
     </ol>
-    <div class="shots four">
-      <figure><div class="phone"><img src="img/app-lecon.jpg?v=2" alt="La leçon du jour : après l'effort, le corps doit redescendre, avec le rappel de la leçon d'hier" loading="lazy" width="598" height="1300"></div><figcaption>Apprendre</figcaption></figure>
-      <figure><div class="phone"><img src="img/app-player.jpg?v=3" alt="Une séance en cours : la voix guide, le fond respire, le cœur se trace en direct" loading="lazy" width="598" height="1300"></div><figcaption>Respirer</figcaption></figure>
-      <figure><div class="phone"><img src="img/app-exercice.jpg?v=2" alt="L'exercice Les mots : retenir sept mots en quelques secondes, puis les écrire de mémoire" loading="lazy" width="598" height="1300"></div><figcaption>Réfléchir</figcaption></figure>
-      <figure><div class="phone"><img src="img/app-bilan.jpg?v=4" alt="Le bilan du jour : journée réussie, « Bravo » écrit à la main, et ce que vous retenez" loading="lazy" width="598" height="1300"></div><figcaption>Le bilan</figcaption></figure>
-    </div>
 
     <h2>En bonus : la tête aussi</h2>
     <p>
@@ -188,6 +215,6 @@
     <a href="mailto:contact@replere.app">contact@replere.app</a>
   </div>
 </footer>
-<script src="effets.js?v=20261022b" defer></script>
+<script src="effets.js?v=20261022c" defer></script>
 </body>
 </html>

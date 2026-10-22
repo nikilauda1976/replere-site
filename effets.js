@@ -175,4 +175,31 @@
     } else { visible = true; raf = requestAnimationFrame(boucle); }
     image(0); canvas.classList.add('pret');
   });
+
+  /* ── Cartes empilées : la carte recouverte recule et s'assombrit ──────── */
+  (function () {
+    var pile = document.querySelector('.pile');
+    if (!pile) return;
+    var racine = document.documentElement, entete = document.querySelector('header');
+    // Les cartes collent juste sous l'en-tête, dont la hauteur change avec la largeur (menu sur deux lignes).
+    function hauteur() { racine.style.setProperty('--entete', (entete ? entete.offsetHeight : 64) + 'px'); }
+    hauteur();
+    window.addEventListener('resize', hauteur);
+    if (reduit) return;
+    var cartes = [].slice.call(pile.querySelectorAll('.pile-carte'));
+    var demande = false;
+    function maj() {
+      demande = false;
+      for (var i = 0; i < cartes.length - 1; i++) {
+        var moi = cartes[i].getBoundingClientRect(), suivante = cartes[i + 1].getBoundingClientRect();
+        // 0 tant que la suivante n'a pas atteint le bas de la carte, 1 quand elle la recouvre.
+        var k = Math.min(1, Math.max(0, (moi.bottom - suivante.top) / moi.height));
+        cartes[i].style.setProperty('--recul', k.toFixed(3));
+      }
+    }
+    window.addEventListener('scroll', function () {
+      if (!demande) { demande = true; requestAnimationFrame(maj); }
+    }, { passive: true });
+    maj();
+  })();
 })();

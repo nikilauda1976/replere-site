@@ -1,0 +1,26 @@
+# Replere
+
+> App iPhone de sophrologie pour la récupération après le sport : quelques minutes guidées par la voix juste après l'effort, pour aider le corps à redescendre, avec la fréquence cardiaque affichée si l'on porte une Apple Watch, une montre Garmin ou une ceinture cardio. Entièrement gratuite, sans abonnement ni publicité ; données conservées sur l'iPhone. Éditeur : Anatole Pitron (France). Contact : contact@replere.app.
+
+## L'app
+- [Accueil](https://replere.app/) : présentation, intentions (après l'effort, apaiser, sommeil, échéance, réveil), gratuité
+- [Pourquoi Replere](https://replere.app/pourquoi-replere.html) : ce qui la distingue des apps de méditation
+- [Nouveautés](https://replere.app/nouveautes.html) : le pouls mesuré avec l'appareil photo, la carte du matin, les phrases sur vos séances
+- [Replere en questions](https://replere.app/questions.html) : réponses courtes (prix, montres, données, Android, science)
+- [Aide et recherche](https://replere.app/aide.html) : questions fréquentes et études citées, y compris leurs limites
+- [Presse](https://replere.app/presse.html) : faits, textes de présentation, visuels
+- [Sophrologues](https://replere.app/sophrologues.html) : mise en avant des praticiens
+
+## Guides
+- [Récupérer après une course : les dix minutes qui suivent](https://replere.app/recuperer-apres-une-course.html) : Marcher, respirer lentement, relâcher le corps : une routine simple pour aider le corps à redescendre après la course, et ce que dit la recherche.
+- [Pourquoi le cœur reste haut après le sport](https://replere.app/faire-baisser-le-coeur-apres-le-sport.html) : La récupération cardiaque expliquée simplement : la phase rapide de la première minute, la phase lente qui suit, ce qui la freine, ce qui l'aide.
+- [Respiration après le sport : trois techniques simples](https://replere.app/respiration-apres-le-sport.html) : Respiration à six cycles par minute, expiration allongée, respiration carrée : comment les pratiquer après l'effort, et les précautions.
+- [Courir le soir empêche-t-il de dormir ?](https://replere.app/sport-le-soir-et-sommeil.html) : Une méta-analyse montre que le sport du soir ne nuit pas au sommeil, sauf un effort intense fini moins d'une heure avant le coucher. Nos conseils.
+- [Gérer le stress avant une course](https://replere.app/stress-avant-une-course.html) : Le trac du départ est normal. Respiration carrée, visualisation du parcours, routine d'avant course : des outils simples, et ce qu'on en sait.
+- [Récupérer après un marathon ou un trail](https://replere.app/recuperer-apres-un-marathon.html) : Après une course longue, que faire à l'arrivée, le soir, et les jours suivants ? Une approche simple et prudente pour récupérer sans se blesser.
+- [Faut-il s'étirer après la course ?](https://replere.app/s-etirer-apres-la-course.html) : Les étirements après l'effort réduisent-ils les courbatures ? Une revue Cochrane répond non, ou si peu. Voici ce qui aide vraiment.
+- [La variabilité cardiaque, expliquée aux coureurs](https://replere.app/variabilite-cardiaque-vfc.html) : Ce que mesure la variabilité cardiaque, pourquoi votre montre l'affiche, ce qui la fait varier, et comment l'utiliser sans s'y perdre.
+- [Sophrologie et course à pied](https://replere.app/sophrologie-et-course-a-pied.html) : Les outils de la sophrologie pour les coureurs (respiration, relâchement, visualisation), ce que la recherche montre, et comment choisir un sophrologue.
+
+## Précautions
+Replere n'est pas un dispositif médical et ne remplace ni un médecin ni un sophrologue.

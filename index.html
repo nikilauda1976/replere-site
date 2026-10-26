@@ -28,7 +28,7 @@
 <link rel="preload" href="fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/instrument-serif-400-italic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css?v=20261023c">
-<link rel="stylesheet" href="accueil.css?v=20261026b">
+<link rel="stylesheet" href="accueil.css?v=20261026c">
 </head>
 <body class="accueil">
 <a class="skip" href="#contenu">Aller au contenu</a>
@@ -52,7 +52,6 @@
       <a class="lien-doux" href="#camera">Mesurer son cœur sans montre</a>
     </div>
     <figure class="vitrine">
-      <div class="vitrine-fond" aria-hidden="true"></div>
       <div class="telephone"><img src="img/v2-accueil.jpg" alt="L'accueil de Replere : étape 1 sur 3, Apprendre, avec le grand bouton « Lire l'idée du jour, 1 min »" width="598" height="1300"></div>
     </figure>
   </section>
@@ -78,33 +77,23 @@
     </div>
   </section>
 
-  <!-- 3. LA NOUVEAUTÉ À METTRE EN AVANT : le pouls par l'appareil photo. -->
-  <section class="camera" id="camera" aria-labelledby="t-camera">
-    <div class="camera-grille">
-      <div class="camera-texte">
-        <p class="surtitre">Nouveau · Sans montre</p>
-        <h2 id="t-camera">Votre cœur, mesuré par l'appareil photo.</h2>
-        <p>Pas de montre, pas de ceinture ? Posez l'index sur l'objectif de votre iPhone. Le flash éclaire le doigt, et Replere lit votre pouls dans les infimes variations de couleur de la peau, à chaque battement. Une fois avant la séance, une fois après : vous voyez de combien votre cœur est redescendu.</p>
-        <ol class="camera-etapes">
-          <li><span>1</span>Posez l'index à plat sur l'objectif arrière, sans appuyer.</li>
-          <li><span>2</span>Le flash s'allume. Restez immobile trente secondes.</li>
-          <li><span>3</span>Le pouls s'affiche, puis la différence avant et après.</li>
-        </ol>
-        <p class="petit">Une estimation pour comparer avant et après, pas une mesure médicale. Une montre ou une ceinture cardio restent plus précises, et Replere les lit aussi.</p>
-      </div>
-      <div class="camera-visuel" aria-hidden="true">
-        <div class="dos">
-          <div class="objectifs"><i></i><i></i><i class="flash"></i></div>
-          <div class="doigt"></div>
-        </div>
-        <div class="mesure">
-          <p class="mesure-titre">Avant · Après</p>
-          <p class="mesure-chiffres"><span>112</span><b>→</b><span>97</span></p>
-          <svg viewBox="0 0 300 70" preserveAspectRatio="none"><path class="trace" d="M0 40 L30 40 L38 22 L46 56 L54 40 L90 40 L98 20 L106 58 L114 40 L150 40 L158 24 L166 54 L174 40 L210 40 L218 26 L226 52 L234 40 L270 40 L278 28 L286 50 L294 40 L300 40"/></svg>
-          <p class="mesure-baisse">−15 <small>bpm</small></p>
-        </div>
-      </div>
+  <!-- 3. LA NOUVEAUTÉ : le pouls par l'appareil photo, expliqué comme les autres blocs. -->
+  <section class="bloc deux-colonnes camera" id="camera" aria-labelledby="t-camera">
+    <div class="bloc-texte">
+      <p class="surtitre">Nouveau · Sans montre</p>
+      <h2 id="t-camera">Votre cœur, mesuré par l'appareil photo.</h2>
+      <p>Posez l'index sur l'objectif arrière de l'iPhone. Le flash éclaire le doigt, et à chaque battement le sang change très légèrement la couleur de la peau. Replere lit ce rythme. C'est le principe des oxymètres de doigt.</p>
+      <p>Trente secondes avant la séance, trente secondes après. Vous voyez de combien votre cœur est redescendu.</p>
+      <dl class="avant-apres" aria-label="Exemple de mesure">
+        <div><dt>Avant</dt><dd>112 <small>bpm</small></dd></div>
+        <div><dt>Après</dt><dd>97 <small>bpm</small></dd></div>
+        <div class="ecart"><dt>Écart</dt><dd>−15</dd></div>
+      </dl>
+      <p class="petit">Exemple de mesure. Une estimation pour comparer avant et après, pas une mesure médicale. Une montre ou une ceinture cardio restent plus précises, et Replere les lit aussi. Aucune image n'est gardée.</p>
     </div>
+    <figure class="vitrine petite">
+      <div class="telephone"><img src="img/v2-pouls.jpg" alt="L'écran de mesure de Replere : « Votre pouls, au doigt », un anneau qui se remplit en trente secondes, 97 bpm, « Ne bougez pas. »" width="598" height="1300" loading="lazy"></div>
+    </figure>
   </section>
 
   <!-- 4. LES TROIS ÉTAPES. -->
@@ -119,7 +108,6 @@
       </ol>
     </div>
     <figure class="vitrine petite">
-      <div class="vitrine-fond" aria-hidden="true"></div>
       <div class="telephone"><img src="img/v2-seance.jpg" alt="Une séance en cours : « Expirez », le décompte, le cœur mesuré en direct" width="598" height="1300" loading="lazy"></div>
     </figure>
   </section>
@@ -132,7 +120,6 @@
       <p>Chaque séance pose une phrase au bol chantant, chaque exercice ajoute des clochettes, chaque leçon une note grave. Le dimanche, vous écoutez ce que votre corps a composé. Et une fois par semaine, Replere vous remontre ce que vous aviez noté sept jours plus tôt.</p>
     </div>
     <figure class="vitrine petite">
-      <div class="vitrine-fond" aria-hidden="true"></div>
       <div class="telephone"><img src="img/v2-musique.jpg" alt="La musique de votre semaine : un disque où chaque note est une séance, un exercice ou une leçon" width="598" height="1300" loading="lazy"></div>
     </figure>
   </section>

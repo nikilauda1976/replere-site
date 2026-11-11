@@ -1,0 +1,205 @@
+/* L'expérience « après l'effort » : une scène 3D qu'on traverse en faisant défiler, et où l'on respire.
+   Tout est rangé sous .xp pour ne rien changer au reste du site. */
+@font-face{font-family:"Instrument Serif";src:url(../fonts/instrument-serif-400.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Instrument Serif";font-style:italic;src:url(../fonts/instrument-serif-400-italic.woff2) format("woff2");font-display:swap}
+
+.xp{--xp-lime:#D8FF85;--xp-paper:#F7F9F2;--xp-night:#0A211F;--xp-top:calc(var(--entete,64px) + 14px);
+  position:relative;color:var(--xp-paper);background:#120807;isolation:isolate}
+.xp *{box-sizing:border-box}
+.xp-stage{position:sticky;top:0;height:100vh;height:100lvh;overflow:hidden;z-index:0}
+/* Sans WebGL ni JavaScript : un crépuscule en dégradé, le texte reste lisible. */
+.xp-stage{background:radial-gradient(120% 70% at 35% 70%,#ffae5c 0%,#c9431f 28%,#2b0b18 62%,#0b1311 100%)}
+.xp-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+.xp-mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.xp-hud{position:absolute;left:0;right:0;top:var(--xp-top);display:flex;justify-content:space-between;align-items:center;padding:0 clamp(16px,3vw,32px);z-index:4;pointer-events:none}
+.xp-stagename{opacity:.72}
+.xp-hud .xp-right{display:flex;align-items:center;gap:14px}
+.xp-bpm{display:flex;gap:8px;align-items:baseline;font-variant-numeric:tabular-nums}
+.xp-bpm b{font-family:"Instrument Serif",serif;font-weight:400;font-size:34px;letter-spacing:0;color:#ffb36b;transition:color .8s}
+.xp-sound{pointer-events:auto;cursor:pointer;border:1px solid rgba(247,249,242,.3);background:rgba(10,20,18,.35);color:var(--xp-paper);border-radius:99px;padding:8px 12px;display:flex;gap:8px;align-items:center;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.xp-sound:focus-visible{outline:2px solid var(--xp-lime);outline-offset:2px}
+.xp-sound i{display:flex;gap:2px;align-items:flex-end;height:12px}
+.xp-sound i s{width:2px;background:currentColor;height:4px;border-radius:1px}
+.xp-sound.on i s{animation:xp-eq 1.1s ease-in-out infinite}
+.xp-sound.on i s:nth-child(2){animation-delay:.2s}.xp-sound.on i s:nth-child(3){animation-delay:.45s}
+@keyframes xp-eq{0%,100%{height:3px}50%{height:12px}}
+.xp-glass{background:rgba(10,24,22,.34);border:1px solid rgba(247,249,242,.16);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);border-radius:16px}
+.xp-tele{position:absolute;right:clamp(16px,3vw,32px);bottom:46px;z-index:4;padding:12px 14px;width:min(350px,calc(100% - 32px));pointer-events:none}
+.xp-tele .xp-row{display:flex;justify-content:space-between;align-items:center;gap:10px;white-space:nowrap}
+.xp-tele canvas{display:block;width:100%;height:36px;margin:8px 0 10px}
+.xp-zone{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border-radius:99px;background:rgba(226,85,42,.92);color:#fff;transition:background .8s,color .8s}
+.xp-zone::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.xp-prog{position:absolute;left:clamp(16px,3vw,32px);right:clamp(16px,3vw,32px);bottom:18px;z-index:4;display:flex;gap:6px;pointer-events:none}
+.xp-prog i{flex:1;height:2px;background:rgba(247,249,242,.18);border-radius:2px;overflow:hidden;position:relative}
+.xp-prog i b{position:absolute;inset:0;transform-origin:left;transform:scaleX(0);background:var(--xp-lime)}
+.xp-live{position:absolute;right:clamp(60px,9vw,160px);top:46%;width:min(236px,25vh);aspect-ratio:9/19.5;translate:0 -50%;z-index:2;border-radius:40px;padding:8px;background:#0c0d0e;box-shadow:0 50px 120px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.1) inset;pointer-events:none}
+.xp-live .xp-scr{height:100%;border-radius:33px;background:linear-gradient(170deg,#1d4a42,#0A211F 55%);padding:44px 16px 16px;display:flex;flex-direction:column;align-items:center;overflow:hidden;position:relative}
+.xp-live .xp-scr::before{content:"";position:absolute;top:10px;left:50%;width:30%;height:20px;translate:-50% 0;border-radius:14px;background:#000}
+.xp-live .xp-ttl{align-self:flex-start;font-family:"Instrument Serif",serif;font-size:20px}
+.xp-live .xp-sub{align-self:flex-start;opacity:.6;margin-top:2px;font-size:9px}
+.xp-dial{position:relative;width:78%;aspect-ratio:1;margin:16px 0 auto}
+.xp-dial svg{width:100%;height:100%}
+.xp-dial div{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.xp-num{font-family:"Instrument Serif",serif;font-size:clamp(30px,4.6vh,44px);line-height:1;font-variant-numeric:tabular-nums}
+.xp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%}
+.xp-stats div{background:rgba(247,249,242,.07);border-radius:10px;padding:7px 6px}
+.xp-stats b{display:block;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.xp-stats small{font-size:8.5px;opacity:.6;letter-spacing:.08em;text-transform:uppercase}
+.xp-guide{position:absolute;left:50%;bottom:22vh;translate:-50% 0;z-index:3;text-align:center;opacity:0;transition:opacity .6s;pointer-events:none;width:min(92vw,560px)}
+.xp-say{font-family:"Instrument Serif",serif;font-style:italic;font-size:clamp(28px,5vw,46px);text-shadow:0 2px 24px rgba(0,0,0,.5)}
+.xp-how{margin-top:10px;opacity:.75;line-height:1.6}
+.xp-count{display:flex;gap:8px;justify-content:center;margin-top:14px}
+.xp-count i{width:9px;height:9px;border-radius:50%;border:1px solid var(--xp-lime);transition:background .4s}
+.xp-count i.on{background:var(--xp-lime)}
+.xp-cue{position:absolute;left:50%;bottom:44px;width:44px;height:44px;margin-left:-22px;border-radius:50%;border:1px solid rgba(247,249,242,.45);z-index:3;display:grid;place-items:center;pointer-events:none;transition:opacity .6s}
+.xp-cue span{width:2px;height:12px;background:var(--xp-paper);border-radius:2px;animation:xp-drop 2.2s ease-in-out infinite}
+@keyframes xp-drop{0%{transform:translateY(-6px);opacity:0}40%{opacity:1}100%{transform:translateY(8px);opacity:0}}
+
+/* Les panneaux de texte défilent par-dessus la scène, qui reste fixe. */
+.xp-panels{position:relative;z-index:1;margin-top:-100vh;margin-top:-100lvh}
+.xp-panel{min-height:150vh;display:flex;align-items:flex-start;padding:calc(var(--entete,64px) + 18vh) clamp(20px,4vw,48px) 0;max-width:1220px;margin:0 auto}
+.xp-panel .xp-t{max-width:32rem}
+.xp-k{color:var(--xp-lime);margin:0 0 16px}
+.xp h1,.xp h2{font-family:"Instrument Serif",serif;font-weight:400;line-height:1;letter-spacing:-.012em;margin:0;color:var(--xp-paper);text-shadow:0 2px 34px rgba(0,0,0,.45)}
+.xp h1{font-size:clamp(52px,9.4vw,124px)}
+.xp h2{font-size:clamp(38px,6.6vw,82px)}
+.xp h1 em,.xp h2 em{color:var(--xp-lime);font-style:italic}
+.xp-l{font-size:clamp(16px,1.55vw,19px);line-height:1.6;margin:20px 0 0;opacity:.92;max-width:29rem;text-shadow:0 1px 18px rgba(0,0,0,.6)}
+.xp-right{justify-content:flex-end}
+.xp-breath{min-height:330vh}
+.xp-fin{min-height:140vh;align-items:center;padding-top:0;gap:56px;flex-wrap:wrap}
+.xp-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.xp-cta{display:inline-flex;align-items:center;background:var(--xp-lime);color:var(--xp-night);font-weight:600;padding:15px 24px;border-radius:99px;text-decoration:none;box-shadow:0 0 40px rgba(216,255,133,.3);transition:transform .2s}
+.xp-cta:active{transform:scale(.97)}
+.xp-ghost{display:inline-flex;align-items:center;color:var(--xp-paper);padding:15px 22px;border-radius:99px;text-decoration:none;border:1px solid rgba(247,249,242,.35);background:rgba(10,20,18,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.xp-note{font-size:13px;opacity:.6;margin-top:14px}
+.xp-note a{color:inherit}
+.xp-phone{width:min(290px,70vw,calc(76vh * 1320 / 2868));aspect-ratio:1320/2868;border-radius:44px;padding:9px;background:#111;box-shadow:0 40px 120px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08) inset;transform:translateY(60px) rotate(-5deg);opacity:0;transition:transform 1.4s cubic-bezier(.2,.8,.2,1),opacity 1.4s}
+.xp-phone.on{transform:none;opacity:1}
+.xp-phone img{width:100%;height:100%;object-fit:cover;border-radius:36px;display:block}
+
+@media (max-width:899px){
+  .xp-live,.xp-cue{display:none}
+  .xp-tele{left:16px;right:16px;width:auto;bottom:40px}
+  .xp-tele canvas{height:26px;margin:6px 0 8px}
+  .xp-guide{bottom:30vh}
+  .xp-sound span{display:none}
+  .xp-hud{top:calc(var(--entete,64px) + 8px)}
+  .xp-stagename{max-width:52vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+@media (prefers-reduced-motion:reduce){.xp-phone{transition:none}.xp-cue span,.xp-sound.on i s{animation:none}}
+
+/* Sur l'accueil : la section occupe toute la largeur, et les titres gardent la voix de la scène
+   (les règles de body.accueil h1/h2 sont plus spécifiques que .xp h1). */
+body.accueil main > section.xp{max-width:none;margin:0;padding:0}
+body.accueil main:has(> section.xp:first-child){padding-top:0}
+body.accueil .xp h1,body.accueil .xp h2{font-family:"Instrument Serif",serif;font-weight:400;color:var(--xp-paper);letter-spacing:-.012em;max-width:none;margin:0;text-wrap:balance}
+body.accueil .xp h1{font-size:clamp(52px,9.4vw,124px);line-height:1}
+body.accueil .xp h2{font-size:clamp(38px,6.6vw,82px);line-height:1}
+body.accueil .xp p{margin-bottom:0}
+body.accueil .xp .xp-l{color:var(--xp-paper)}
+
+/* Mise en page : les textes s'effacent en douceur (piloté par experience.js), le téléphone flottant
+   reste au-dessus de la carte du pouls, et rien ne déborde sur petit écran. */
+.xp-t{transition:opacity .25s linear;will-change:opacity}
+.xp-live{top:42%;width:min(220px,23vh)}
+.xp h1,.xp h2{overflow-wrap:break-word}
+@media (max-height:700px) and (min-width:900px){.xp-live{display:none}}
+@media (max-width:899px){
+  body.accueil .xp h1{font-size:clamp(44px,13vw,64px)}
+  body.accueil .xp h2{font-size:clamp(34px,10vw,52px)}
+  .xp-panel{padding-top:calc(var(--entete,64px) + 12vh)}
+  .xp-fin{padding-bottom:22vh;gap:28px}
+  .xp-phone{width:min(210px,52vw)}
+  .xp-bpm b{font-size:28px}
+}
+/* La scène remonte sous le menu, comme l'ancienne section du soir : plus de bandeau clair en haut. */
+body.accueil main > section.xp{margin-top:-80px}
+.xp-fin{min-height:100vh;min-height:100lvh;padding-top:calc(var(--entete,64px) + 20px)}
+@media (max-width:899px){
+  /* Un voile sombre en haut pour que le texte reste lisible sur la scène */
+  .xp-stage::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(10,8,8,.66),rgba(10,8,8,.34) 52%,rgba(10,8,8,0) 78%)}
+  .xp-hud,.xp-tele,.xp-prog,.xp-guide{z-index:5}
+  .xp-stagename,.xp-bpm{display:none}
+  .xp-hud{top:auto;bottom:132px;justify-content:flex-end}
+  .xp-tele{transition:opacity .3s}
+  .xp-phone{display:none}
+  .xp-fin{align-items:center;padding-bottom:0}
+  .xp-ghost{background:rgba(10,20,18,.55)}
+}
+@media (max-width:899px){.xp-tele{opacity:0}}
+
+/* Lisibilité : les couleurs du site (body.accueil p, a…) ne doivent pas assombrir les textes de la scène,
+   et un voile discret détache le texte des zones lumineuses (arche, soleil). */
+body.accueil .xp .xp-k{color:var(--xp-lime);text-shadow:0 1px 12px rgba(0,0,0,.7);opacity:1}
+body.accueil .xp .xp-l{color:var(--xp-paper);opacity:1;text-shadow:0 1px 3px rgba(0,0,0,.55),0 2px 22px rgba(0,0,0,.6)}
+body.accueil .xp .xp-note,body.accueil .xp .xp-note a{color:rgba(247,249,242,.86);text-shadow:0 1px 10px rgba(0,0,0,.7)}
+body.accueil .xp .xp-ghost{color:var(--xp-paper);background:rgba(10,20,18,.55);border-color:rgba(247,249,242,.45)}
+body.accueil .xp .xp-cta{color:var(--xp-night)}
+body.accueil .xp h1,body.accueil .xp h2{text-shadow:0 2px 6px rgba(0,0,0,.35),0 4px 40px rgba(0,0,0,.55)}
+.xp-stage::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(12,8,7,.62) 0%,rgba(12,8,7,.38) 38%,rgba(12,8,7,0) 62%),linear-gradient(180deg,rgba(12,8,7,.35),rgba(12,8,7,0) 30%)}
+.xp-panel{padding-left:max(clamp(20px,4vw,48px),env(safe-area-inset-left));padding-right:max(clamp(20px,4vw,48px),env(safe-area-inset-right))}
+.xp-panel .xp-t{min-width:0}
+@media (max-width:899px){.xp-stage::before{background:linear-gradient(180deg,rgba(12,8,7,.55),rgba(12,8,7,.25) 60%,rgba(12,8,7,0))}}
+
+/* Les écrans de l'app, un par moment : ils glissent en place quand leur panneau arrive. */
+.xp-shot{margin:0;flex:0 0 auto}
+.xp-panel.xp-right:has(.xp-shot){justify-content:space-between;align-items:center;padding-top:0;min-height:150vh;gap:clamp(24px,6vw,96px)}
+.xp-panel.xp-right:has(.xp-shot) .xp-shot{margin-left:clamp(0px,4vw,60px)}
+.xp-shot .xp-phone{transform:translateY(70px) rotate(-6deg);opacity:0}
+.xp-shot.on .xp-phone{transform:none;opacity:1}
+.xp-panel.xp-right .xp-shot .xp-phone{transform:translateY(70px) rotate(5deg)}
+.xp-panel.xp-right .xp-shot.on .xp-phone{transform:none}
+@media (max-width:899px){
+  .xp-panel.xp-right:has(.xp-shot) .xp-shot{display:none}
+  .xp-panel.xp-right:has(.xp-shot){align-items:flex-start;padding-top:calc(var(--entete,64px) + 12vh)}
+  .xp-fin .xp-shot{display:block;order:2}
+  .xp-fin .xp-shot .xp-phone{display:block;width:min(180px,46vw)}
+  .xp-fin{flex-direction:column;align-items:flex-start;justify-content:center}
+}
+
+/* ── LA SUITE DE L'ACCUEIL, DE NUIT (12 novembre 2026) ─────────────────────────────────────────
+   Sous la scène, la page ne repasse plus au crème : elle prolonge la nuit étoilée où la scène finit,
+   avec les mêmes deux couleurs (vert nuit, anis). Tout l'accueil parle enfin d'une seule voix. */
+body.accueil:has(.xp){
+  --creme:#07110F; --texte:#F2F5EE; --texte-doux:rgba(242,245,238,.72); --trait:rgba(242,245,238,.11);
+  --foret:#D8FF85; --sauge:#13221F;
+  background:#07110F;
+  background-image:radial-gradient(120% 60% at 15% 22%,rgba(42,78,69,.35),transparent 60%),radial-gradient(90% 50% at 90% 70%,rgba(42,78,69,.25),transparent 60%);
+  background-attachment:fixed;
+}
+/* Le passage : la nuit de la scène se fond dans la page, sans bande claire */
+body.accueil main > section.xp{background:#020807}
+body.accueil main > section.xp + *{position:relative}
+body.accueil main > section.xp + *::before{content:"";position:absolute;left:50%;width:100vw;translate:-50% 0;top:-1px;height:160px;
+  background:linear-gradient(#020807,rgba(7,17,15,0));pointer-events:none;z-index:0}
+body.accueil:has(.xp) .chiffres{position:relative;z-index:1;padding-top:96px}
+/* Textes et chiffres */
+body.accueil:has(.xp) h2,body.accueil:has(.xp) h3{color:var(--texte)}
+body.accueil:has(.xp) .valeur,body.accueil:has(.xp) .chiffre .valeur span{color:var(--texte)}
+body.accueil:has(.xp) .legende,body.accueil:has(.xp) .surtitre{color:var(--texte-doux)}
+body.accueil:has(.xp) .accent{color:#D8FF85}
+body.accueil:has(.xp) .chiffre{border-color:var(--trait)}
+body.accueil:has(.xp) .ruban{border-color:var(--trait);color:var(--texte-doux)}
+body.accueil:has(.xp) .ruban span{color:var(--texte-doux)}
+/* Cartes, questions et liens : du verre sombre au lieu du blanc */
+body.accueil:has(.xp) .faq details,body.accueil:has(.xp) .lien-doux{background:rgba(242,245,238,.04);border-color:var(--trait);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+body.accueil:has(.xp) .faq details:hover,body.accueil:has(.xp) .lien-doux:hover{background:rgba(242,245,238,.08)}
+body.accueil:has(.xp) .faq summary{color:var(--texte)}
+body.accueil:has(.xp) .faq summary::after{background:linear-gradient(#D8FF85,#D8FF85) center/12px 2px no-repeat,linear-gradient(#D8FF85,#D8FF85) center/2px 12px no-repeat}
+body.accueil:has(.xp) .tuile{box-shadow:0 30px 80px rgba(0,0,0,.45)}
+body.accueil:has(.xp) .telephone{box-shadow:0 40px 100px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.06)}
+/* Le menu reste en verre sombre sur toute la page */
+body.accueil:has(.xp) header,body.accueil:has(.xp) header:not(.sur-nuit){background:rgba(10,20,18,.55);border-color:rgba(242,245,238,.1);-webkit-backdrop-filter:blur(12px) saturate(140%);backdrop-filter:blur(12px) saturate(140%)}
+body.accueil:has(.xp) header .logo,body.accueil:has(.xp) header nav a{color:rgba(247,249,242,.8)}
+body.accueil:has(.xp) header nav a[aria-current="page"]{background:rgba(255,255,255,.12);color:#D8FF85}
+body.accueil:has(.xp) header .langue{color:#F7F9F2;border-color:rgba(247,249,242,.45)}
+body.accueil:has(.xp) header .menu span{background:#F7F9F2}
+/* Le verre du site (verre.css) passe en verre de nuit sur l'accueil */
+body.accueil:has(.xp) .faq details,body.accueil:has(.xp) .lien-doux{--lg-fond:rgba(242,245,238,.05);--lg-reflet:linear-gradient(135deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.02) 40%,rgba(255,255,255,0) 100%)}
+body.accueil:has(.xp) .faq details:hover,body.accueil:has(.xp) .lien-doux:hover{--lg-fond:rgba(242,245,238,.09)}
+body.accueil:has(.xp) .lien-doux{color:#F2F5EE !important}
+/* Le bouton principal de fin en anis, comme partout ailleurs */
+body.accueil:has(.xp) .fin .bouton-anis,body.accueil:has(.xp) .bouton-anis{background:#D8FF85 !important;color:#0A211F !important}
+body.accueil:has(.xp) main .bouton{background:#D8FF85 !important;color:#0A211F !important;box-shadow:0 0 40px rgba(216,255,133,.25),inset 0 1px 0 rgba(255,255,255,.6)}

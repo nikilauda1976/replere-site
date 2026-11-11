@@ -1,0 +1,156 @@
+/* LE SOIR (8 novembre 2026), sur toutes les pages. Le premier écran passe en nuit : on reprend du modèle
+   « verre liquide » le fond sombre, la serif italique et le verre, sans vidéo : le cercle qui
+   respire au rythme de l'app (4 s d'inspiration, 6 s d'expiration) remplace le film.
+   Rien de chargé en plus : pas de vidéo, pas de police externe. */
+
+:root { --nuit-profonde: #050C0B; --nuit-haute: #12302C; }
+
+/* Le verre liquide : presque transparent, flou léger, un liseré plus clair en haut et en bas. */
+.verre {
+  position: relative; overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  -webkit-backdrop-filter: blur(6px) saturate(140%); backdrop-filter: blur(6px) saturate(140%);
+  border: 0;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12);
+}
+.verre::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.4px; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,.45) 0%, rgba(255,255,255,.15) 20%, rgba(255,255,255,0) 40%,
+                                      rgba(255,255,255,0) 60%, rgba(255,255,255,.15) 80%, rgba(255,255,255,.45) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+
+/* ── La section du soir ── */
+body.accueil main > section.soir {
+  position: relative; isolation: isolate; overflow: hidden; max-width: none;
+  /* Elle remonte sous le menu, pour que la pastille de verre flotte sur la nuit. */
+  margin-top: -80px; padding: calc(80px + clamp(72px, 12vh, 140px)) 24px 0;
+  text-align: center;
+  background:
+    radial-gradient(120% 70% at 50% 0%, var(--nuit-haute) 0%, transparent 70%),
+    linear-gradient(180deg, var(--nuit-profonde) 0%, #081615 70%, var(--nuit) 100%);
+}
+/* Le bas se fond dans le crème de la suite. */
+.soir::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 180px; z-index: -1;
+  background: linear-gradient(180deg, transparent, var(--creme));
+}
+
+.soir-ciel { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.orbe, .orbe-halo {
+  position: absolute; left: 50%; top: clamp(180px, 30vh, 320px);
+  border-radius: 50%; transform: translate(-50%, -50%) scale(.72);
+  animation: souffle 10s cubic-bezier(.45, 0, .55, 1) infinite;
+}
+.orbe {
+  width: min(520px, 92vw); aspect-ratio: 1;
+  background: radial-gradient(circle at 50% 42%, rgba(216, 255, 133, .20) 0%, rgba(120, 190, 150, .12) 38%, rgba(20, 60, 52, 0) 70%);
+}
+.orbe-halo {
+  width: min(820px, 140vw); aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(216, 255, 133, .07) 0%, transparent 62%);
+  filter: blur(20px);
+}
+/* 4 s pour monter (40 %), 6 s pour redescendre. */
+@keyframes souffle {
+  0%   { transform: translate(-50%, -50%) scale(.72); opacity: .75; }
+  40%  { transform: translate(-50%, -50%) scale(1);   opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(.72); opacity: .75; }
+}
+
+/* Le texte, clair sur la nuit. */
+body.accueil .soir .surtitre { color: rgba(247, 249, 242, .55) !important; }
+body.accueil .soir h1 {
+  font-family: "Instrument Serif", ui-serif, Georgia, serif; font-weight: 400; color: #F7F9F2;
+  font-size: clamp(3.2rem, 9vw, 7.5rem); line-height: .98; letter-spacing: -0.02em; max-width: 12ch;
+}
+body.accueil .soir h1 em { font-style: italic; color: var(--anis); }
+body.accueil .soir .chapeau { color: rgba(247, 249, 242, .78); max-width: 560px; }
+body.accueil .soir .preuve-ligne { color: rgba(247, 249, 242, .5); margin-top: 20px; font-size: .875rem; }
+body.accueil .soir .preuve-ligne a { color: rgba(247, 249, 242, .8); }
+
+/* Le guide du souffle : une pastille de verre, le mot change avec le cercle. */
+.guide-souffle {
+  display: inline-grid; place-items: center; margin: 32px auto 0; min-width: 168px; height: 44px;
+  padding: 0 24px; border-radius: 999px; color: #F7F9F2; font-size: .9rem; font-weight: 500; letter-spacing: .04em;
+}
+.guide-souffle .temps { grid-area: 1 / 1; }
+.guide-souffle .inspire { animation: mot-inspire 10s linear infinite; }
+.guide-souffle .souffle  { animation: mot-souffle 10s linear infinite; }
+@keyframes mot-inspire { 0%, 37% { opacity: 1; } 42%, 97% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes mot-souffle { 0%, 37% { opacity: 0; } 42%, 97% { opacity: 1; } 100% { opacity: 0; } }
+
+/* Les deux boutons : l'action en anis, le second en verre. */
+.soir .actions { margin-top: 24px; gap: 12px; }
+body.accueil .soir .bouton { min-height: 48px; padding: 0 22px; }
+body.accueil .soir .bouton-anis { background: var(--anis); color: var(--nuit) !important; }
+body.accueil .soir .bouton-anis:hover { box-shadow: 0 10px 36px rgba(216, 255, 133, .25); }
+body.accueil .soir .bouton.verre { background: rgba(255, 255, 255, .04); color: #F7F9F2 !important; }
+body.accueil .soir .bouton.verre:hover { background: rgba(255, 255, 255, .09); box-shadow: none; }
+
+/* Le téléphone sur la nuit : une lueur à la place de l'ombre. */
+.soir .vitrine { margin-top: clamp(56px, 8vh, 88px); }
+.soir .telephone { box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.28), inset 0 0 0 4px #050807, 0 40px 120px -30px rgba(216, 255, 133, .18); }
+
+/* ── Le menu en verre tant qu'il flotte sur la nuit ── */
+header.sur-nuit, body.accueil header.sur-nuit {
+  background: rgba(255, 255, 255, .04); border-color: transparent;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, .12);
+  -webkit-backdrop-filter: blur(8px) saturate(140%); backdrop-filter: blur(8px) saturate(140%);
+  overflow: hidden;
+}
+header.sur-nuit::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.4px; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,.45) 0%, rgba(255,255,255,.15) 20%, rgba(255,255,255,0) 40%,
+                                      rgba(255,255,255,0) 60%, rgba(255,255,255,.15) 80%, rgba(255,255,255,.45) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+header.sur-nuit .logo { color: #F7F9F2; }
+body.accueil header.sur-nuit .logo { color: #F7F9F2; }
+header.sur-nuit nav a, body.accueil header.sur-nuit nav a { color: rgba(247, 249, 242, .72); }
+header.sur-nuit nav a:hover, body.accueil header.sur-nuit nav a:hover { background: rgba(255, 255, 255, .08); color: #F7F9F2; }
+header.sur-nuit nav a[aria-current="page"], body.accueil header.sur-nuit nav a[aria-current="page"] { background: rgba(255, 255, 255, .12); color: var(--anis); }
+header.sur-nuit .nav-cta { background: var(--anis); color: var(--nuit) !important; }
+header.sur-nuit .menu span { background: #F7F9F2; }
+header { transition: background .4s var(--courbe), box-shadow .4s var(--courbe); }
+
+/* Moins d'animation demandée : le cercle reste ouvert, la pastille donne le rythme en clair. */
+@media (prefers-reduced-motion: reduce) {
+  .orbe, .orbe-halo { animation: none; transform: translate(-50%, -50%) scale(.9); }
+  .guide-souffle .inspire, .guide-souffle .souffle { animation: none; opacity: 0; }
+  .guide-souffle::after { content: "Inspirez 4 s · soufflez 6 s"; grid-area: 1 / 1; }
+}
+
+/* ── Les autres pages : le même soir, en plus petit ──
+   Une bande nuit sous le menu, le titre en serif crème, le cercle qui respire, plus discret.
+   Le texte de la page reprend ensuite sur le crème habituel. */
+.tete-soir {
+  position: relative; isolation: isolate; overflow: hidden;
+  margin-top: -80px; padding: calc(80px + clamp(48px, 8vh, 88px)) 0 clamp(56px, 9vh, 96px);
+  background:
+    radial-gradient(120% 90% at 50% 0%, var(--nuit-haute) 0%, transparent 70%),
+    linear-gradient(180deg, var(--nuit-profonde) 0%, var(--nuit) 100%);
+  color: #F7F9F2;
+}
+.tete-soir .soir-ciel .orbe, .tete-soir .soir-ciel .orbe-halo { top: 62%; left: 78%; }
+.tete-soir .soir-ciel .orbe { width: min(420px, 80vw); }
+.tete-soir .soir-ciel .orbe-halo { width: min(640px, 120vw); }
+.tete-soir .wrap { position: relative; }
+body .tete-soir h1 { font-family: "Instrument Serif", ui-serif, Georgia, serif; font-weight: 400; letter-spacing: -0.01em;
+  font-size: clamp(2.8rem, 6vw, 4.6rem); line-height: 1; color: #F7F9F2; max-width: 18ch; text-wrap: balance; margin: 0; }
+.tete-soir .eyebrow { color: var(--anis) !important; margin: 0 0 16px; }
+.tete-soir .lead { color: rgba(247, 249, 242, .78); max-width: 640px; margin: 20px 0 0; text-wrap: pretty; }
+.tete-soir .date { color: rgba(247, 249, 242, .5); margin: 16px 0 0; font-size: .875rem; }
+.tete-soir a { color: var(--anis); }
+main > .wrap:first-of-type { padding-top: clamp(40px, 6vh, 64px); }
+/* Les guides : le titre est monté dans la bande, le texte prend toute la colonne de lecture. */
+.guide-mise:not(:has(.guide-tete)) { display: block; max-width: 720px; }
+main:has(> .tete-soir) { padding-top: 0; }
+
+/* Un titre lu par VoiceOver mais invisible : garde l'ordre des niveaux (h1, h2, h3) sans changer la mise en page. */
+.cache-visuel { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* Le mot d'Anatole : un fond nuit sous la photo (le texte reste lisible tant qu'elle charge). */
+body.accueil main > section.mot-anatole { background-color: var(--nuit); }

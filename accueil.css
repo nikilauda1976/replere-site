@@ -1,0 +1,289 @@
+/* L'ACCUEIL, ÉPURÉ (26 octobre 2026). Inspiré du modèle Figma « Modern Product Launch » : beaucoup
+   d'air, de grands titres serif, une seule photo, une conclusion centrée. Deux couleurs seulement :
+   le vert nuit pour le texte et les fonds, l'anis pour l'action. Une seule animation : le cercle
+   qui respire derrière le premier écran, au rythme de l'app (4 s d'inspiration, 6 s d'expiration).
+   Ne concerne que body.accueil : les autres pages gardent style.css. */
+
+body.accueil {
+  --nuit: #0A211F;
+  --foret: #2A4E45;
+  --sauge: #DCE8D9;
+  --creme: #F7F9F2;
+  --anis: #D8FF85;
+  --texte: #0A211F;
+  --texte-doux: #4A5D58;
+  --trait: rgba(10, 33, 31, 0.12);
+  background: var(--creme);
+  background-image: none;
+  color: var(--texte);
+}
+
+/* En-tête clair */
+body.accueil header { background: rgba(247, 249, 242, 0.82); border-bottom: 1px solid var(--trait); }
+body.accueil .logo { color: var(--texte); }
+body.accueil nav a { color: var(--texte-doux); }
+body.accueil nav a:hover { background: rgba(10, 33, 31, 0.06); color: var(--texte); }
+body.accueil nav a[aria-current="page"] { background: var(--nuit); color: var(--anis); }
+body.accueil a { color: var(--foret); }
+body.accueil a:focus-visible { outline-color: var(--foret); }
+body.accueil header .wrap { max-width: 1200px; padding: 0 clamp(20px, 4vw, 56px); }
+
+body.accueil main { padding: 0 0 40px; }
+body.accueil main > section { max-width: 1200px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+@media (min-width: 900px) { body.accueil main > section { padding-left: 48px; padding-right: 48px; } }
+
+/* L'échelle de type (B1) : Heading 1 = 60/60, Heading 2 = 48/48, Heading 3 = 36/40, Title 1 = 20/28,
+   Body 3 = 16/24, Caption = 14/20 et 12/16. Tout en semibold ou moins, jamais d'italique. */
+body.accueil h1, body.accueil h2 { font-family: var(--sans); font-weight: 600; color: var(--texte); letter-spacing: -0.02em; }
+body.accueil h1 { font-size: 3.75rem; line-height: 1; max-width: 680px; margin: 0 auto; }
+body.accueil h2 { font-size: 3rem; line-height: 1; margin: 0 0 24px; max-width: 680px; }
+body.accueil h3 { font-size: 2.25rem; line-height: 2.5rem; font-weight: 600; }
+body.accueil p { color: var(--texte-doux); font-size: 1rem; line-height: 1.5rem; }
+@media (max-width: 720px) { body.accueil h1 { font-size: 3rem; } body.accueil h2 { font-size: 2.25rem; line-height: 2.5rem; } }
+
+.surtitre {
+  font-size: 0.75rem !important; line-height: 1rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--foret) !important; margin-bottom: 16px;
+}
+
+/* Boutons */
+.actions { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; justify-content: center; margin-top: 34px; }
+.bouton {
+  display: inline-flex; align-items: center; padding: 8px 12px; border-radius: 999px;
+  background: var(--nuit); color: var(--anis) !important; font-weight: 600; font-size: 1rem; line-height: 1.5rem;
+  text-decoration: none;
+}
+.bouton:hover { transform: translateY(-1px); box-shadow: 0 10px 28px rgba(10, 33, 31, 0.22); }
+.lien-doux { color: var(--texte) !important; font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--trait); padding-bottom: 2px; min-height: 44px; display: inline-flex; align-items: center; }
+.lien-doux:hover { border-bottom-color: var(--texte); }
+
+/* 1. Ouverture */
+.ouverture { position: relative; text-align: center; padding-top: clamp(64px, 11vh, 130px); overflow: hidden; }
+.ouverture .surtitre { position: relative; }
+.ouverture h1, .ouverture .chapeau, .ouverture .actions { position: relative; z-index: 1; }
+.chapeau { max-width: 680px; margin: 24px auto 0; font-size: 1.25rem !important; line-height: 1.75rem; font-weight: 500; }
+
+
+/* La vitrine : le téléphone seul, posé sur le fond crème, avec son ombre. */
+.vitrine { position: relative; margin: clamp(56px, 8vh, 90px) auto 0; max-width: 1100px; display: flex; justify-content: center; }
+/* Les écrans de l'app dans un iPhone : le contour titane, l'écran qui épouse le coin, l'îlot déjà
+   dans la capture. Rayons hors grille Tailwind, c'est un objet, pas un composant. */
+.telephone {
+  position: relative; width: min(320px, 72vw); padding: 11px; border-radius: 54px;
+  background: #0E1A18;
+  box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.28), inset 0 0 0 4px #050807,
+              0 40px 80px -30px rgba(10, 33, 31, 0.55);
+}
+.telephone::before, .telephone::after { content: ""; position: absolute; width: 3px; border-radius: 2px; background: #2B3A37; }
+.telephone::before { left: -3px; top: 120px; height: 64px; box-shadow: 0 84px 0 #2B3A37; }
+.telephone::after { right: -3px; top: 160px; height: 96px; }
+.telephone img { display: block; width: 100%; height: auto; border-radius: 43px; }
+.vitrine.petite { margin: 0; }
+.vitrine.petite .telephone { width: min(300px, 72vw); }
+
+/* Les blocs : une idée chacun, beaucoup d'air. */
+.bloc { padding-top: clamp(110px, 16vh, 180px); }
+.bloc-texte { max-width: 640px; }
+.bloc-texte > p:not(.surtitre) { max-width: 54ch; }
+.photo { margin-top: 48px; }
+.photo img { display: block; width: 100%; height: clamp(320px, 52vw, 620px); object-fit: cover; object-position: center 35%; border-radius: 24px; }
+
+.deux-colonnes { display: grid; gap: 56px; align-items: center; }
+@media (min-width: 900px) {
+  .deux-colonnes { grid-template-columns: 1.1fr 0.9fr; gap: 80px; }
+  .deux-colonnes.inverse .bloc-texte { order: 2; }
+}
+
+/* Les trois étapes, en lignes numérotées séparées d'un filet. */
+.etapes { list-style: none; margin: 30px 0 0; padding: 0; border-top: 1px solid var(--trait); }
+.etapes li { display: grid; grid-template-columns: 48px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--trait); color: var(--texte-doux); font-size: 1rem; line-height: 1.5rem; }
+.etapes .n { font-variant-numeric: tabular-nums; color: var(--foret); font-weight: 600; padding-top: 1px; }
+.etapes strong { display: block; color: var(--texte); font-size: 1.125rem; line-height: 1.75rem; font-weight: 500; }
+
+.preuve { margin-top: 40px; display: grid; grid-template-columns: auto 1fr; gap: 22px; align-items: center; }
+.preuve .chiffre { font-family: var(--serif); font-size: clamp(3.4rem, 6vw, 4.6rem) !important; line-height: 1; color: var(--texte) !important; margin: 0; letter-spacing: -0.03em; }
+.preuve .chiffre span { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 1rem; letter-spacing: 0; margin-left: 6px; color: var(--foret); font-weight: 600; }
+.preuve p:not(.chiffre) { margin: 0; font-size: 0.98rem !important; }
+
+/* Le mot d'Anatole : une grande citation, sans carte. */
+.mot-anatole { padding-top: clamp(120px, 18vh, 200px); text-align: center; }
+.mot-anatole blockquote { margin: 0 auto; max-width: 860px; }
+.mot-anatole blockquote p { font-family: var(--sans); font-weight: 600; font-size: 3rem !important; line-height: 1; color: var(--texte) !important; letter-spacing: -0.02em; max-width: 680px; margin: 0 auto; }
+@media (max-width: 720px) { .mot-anatole blockquote p { font-size: 2.25rem !important; line-height: 2.5rem; } }
+.mot-anatole .signe { margin-top: 26px; font-size: 0.95rem !important; }
+.visuellement-cache { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* La fin, centrée, comme « Connect with us » dans le modèle. */
+.fin { text-align: center; padding-top: clamp(120px, 18vh, 200px); padding-bottom: 40px; }
+body.accueil .fin h2 { margin: 0 auto 16px; max-width: 18ch; }
+.fin > p { margin: 0 auto; max-width: 44ch; }
+.fin .qr { display: inline-flex; align-items: center; gap: 14px; margin-top: 34px; text-align: left; }
+.fin .qr img { width: 96px; height: 96px; border-radius: 12px; background: #fff; padding: 6px; }
+.fin .qr p { max-width: 24ch; font-size: 0.88rem !important; margin: 0; }
+.fin .petit { margin-top: 48px !important; font-size: 0.85rem !important; }
+@media (hover: none) { .fin .qr { display: none; } }
+
+/* Le pied de page garde son fond vert nuit (style.css) : texte clair. */
+body.accueil .pied a, body.accueil .pied p { color: inherit; }
+
+/* Moins d'animation demandée : le cercle reste immobile. */
+@media (prefers-reduced-motion: reduce) {
+  .bouton { transition: none; }
+}
+
+@media (max-width: 600px) {
+  .preuve { grid-template-columns: 1fr; gap: 10px; }
+  .actions { gap: 14px; }
+}
+
+
+/* ── Bandeau d'annonce, fin et sombre, comme Soi Paris ── */
+.bandeau { margin: 0; background: var(--nuit, #0A211F); text-align: center; }
+body.accueil .bandeau a { display: block; padding: 9px 16px; color: var(--anis) !important; font-size: 0.86rem; font-weight: 500; text-decoration: none; letter-spacing: 0.01em; }
+body.accueil .bandeau a:hover { text-decoration: underline; }
+
+.centre { text-align: center; }
+
+
+/* ── La mosaïque : une grande photo, deux empilées, le titre posé dessus ── */
+.mosaique-bloc { padding-top: clamp(110px, 16vh, 170px); text-align: center; }
+body.accueil .mosaique-bloc h2 { margin: 0 auto 18px; max-width: none; }
+.intro-centre { max-width: 680px; margin: 0 auto 48px; }
+.mosaique { display: grid; gap: 14px; grid-template-columns: 1fr; text-align: left; }
+@media (min-width: 900px) {
+  .mosaique { grid-template-columns: 1.25fr 1fr; grid-template-rows: 1fr 1fr; height: min(82vh, 760px); }
+  .mosaique .haute { grid-row: 1 / 3; }
+}
+.tuile { position: relative; display: block; overflow: hidden; border-radius: 24px; min-height: 300px; text-decoration: none; }
+.tuile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+.tuile:hover img { transform: scale(1.04); }
+.tuile::after { content: ""; position: absolute; inset: 0; background: rgba(10, 33, 31, 0.28); }
+.tuile-texte { position: absolute; left: 0; right: 0; bottom: 26px; z-index: 1; text-align: center; color: #fff; }
+.tuile-texte strong { display: block; font-size: 1.5rem; line-height: 2rem; font-weight: 600; }
+.tuile-texte em { display: inline-block; margin-top: 8px; font-style: normal; font-weight: 500; font-size: 0.875rem; line-height: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.8); }
+@media (max-width: 899px) { .tuile { height: 62vw; min-height: 260px; } .tuile.haute { height: 80vw; } }
+
+/* ── L'appareil photo : même mise en page que les autres blocs, sur le fond crème ── */
+.avant-apres { display: grid; grid-template-columns: repeat(3, 1fr); margin: 34px 0 0; border-top: 1px solid var(--trait); border-bottom: 1px solid var(--trait); }
+.avant-apres div { padding: 18px 0; }
+.avant-apres div + div { border-left: 1px solid var(--trait); padding-left: 20px; }
+.avant-apres dt { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--foret); }
+.avant-apres dd { margin: 8px 0 0; font-family: var(--sans); font-weight: 600; font-size: 2.25rem; line-height: 2.5rem; color: var(--texte); font-variant-numeric: tabular-nums; }
+.avant-apres small { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.85rem; color: var(--texte-doux); margin-left: 2px; }
+body.accueil .camera .petit { font-size: 0.85rem !important; margin-top: 18px; max-width: 54ch; }
+
+body.accueil .fin .surtitre { margin-bottom: 14px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tuile img { transition: none; }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════════════
+   Le mouvement (2 novembre 2026). Tiré de ce que 64 modèles Motionsites ont en commun :
+   une police sans serif et un serif italique pour un mot d'accent ; des blocs qui montent en
+   apparaissant, avec un décalage entre frères (0,6 s, easeOut) ; des chiffres qui comptent ;
+   un ruban qui défile ; une phrase qui se révèle mot à mot au défilement ; une barre de
+   navigation en pastille de verre ; un bloc plein cadre sur une photo avant la fin ; des
+   boutons ronds qui grandissent d'un rien au survol. Rien de tout cela ne tourne si la
+   personne a demandé moins d'animations.
+   ══════════════════════════════════════════════════════════════════════════════════════ */
+
+/* L'accent : un mot en serif italique, dans un titre en serif romain. */
+body.accueil .accent { font-style: normal; font-weight: 600; color: var(--foret); }
+
+/* Les boutons : un rien plus grands au survol, un rien plus petits au clic. La courbe de base
+   (0.22, 1, 0.36, 1) : le mouvement a du poids et décélère en arrivant. */
+body.accueil { --courbe: cubic-bezier(0.22, 1, 0.36, 1); }
+.bouton { transition: transform .5s var(--courbe), box-shadow .3s var(--courbe); }
+.bouton:hover { transform: scale(1.03); }
+.bouton:active { transform: scale(0.98); }
+.lien-doux { padding: 0 24px; border-radius: 999px; border: 1px solid rgba(10, 33, 31, 0.12); background: rgba(255, 255, 255, 0.5); box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8); min-height: 48px; transition: transform .5s var(--courbe), background .3s var(--courbe); }
+.lien-doux:hover { border-color: rgba(10, 33, 31, 0.2); background: rgba(255, 255, 255, 0.85); transform: scale(1.03); }
+
+/* L'apparition : 20 px plus bas et transparent, puis en place. */
+.avec-mouvement [data-reveal], .avec-mouvement [data-reveal-child] { opacity: 0; transform: translateY(32px); transition: opacity .7s var(--courbe), transform .7s var(--courbe); }
+.avec-mouvement [data-reveal] > [data-reveal-child] { transition-delay: 0s; }
+.avec-mouvement [data-reveal].visible, .avec-mouvement [data-reveal-child].visible { opacity: 1; transform: none; }
+/* Un bloc dont les enfants s'animent n'a pas besoin de s'animer lui-même. */
+.avec-mouvement [data-reveal]:has([data-reveal-child]) { opacity: 1; transform: none; }
+
+/* Les chiffres : quatre colonnes séparées d'un filet, en grand serif. */
+.chiffres { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: clamp(80px, 12vh, 130px); border-top: 1px solid var(--trait); border-bottom: 1px solid var(--trait); }
+.chiffre { padding: 28px 22px 26px; }
+.chiffre + .chiffre { border-left: 1px solid var(--trait); }
+body.accueil .chiffre .valeur { margin: 0; font-family: var(--sans); font-weight: 600; font-size: 2.25rem; line-height: 2.5rem; color: var(--texte); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.chiffre .valeur .fleche { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.5em; color: var(--foret); vertical-align: middle; }
+.chiffre .valeur small { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.38em; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--foret); margin-left: 6px; }
+body.accueil .chiffre .legende { margin: 8px 0 0; font-size: .875rem !important; line-height: 1.25rem; max-width: 24ch; }
+@media (max-width: 899px) { .chiffres { grid-template-columns: 1fr 1fr; } .chiffre:nth-child(3) { border-left: 0; } .chiffre:nth-child(n+3) { border-top: 1px solid var(--trait); } }
+
+/* Le ruban : les moments où une séance se glisse, en défilement continu, bords fondus. */
+.ruban { overflow: hidden; margin: 18px 0 0; padding: 14px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.ruban-piste { display: flex; width: max-content; animation: ruban 38s linear infinite; }
+.ruban-piste span { padding: 0 28px; font-size: .78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--foret); white-space: nowrap; position: relative; }
+.ruban-piste span::after { content: "·"; position: absolute; right: -4px; color: rgba(10, 33, 31, 0.3); }
+.ruban:hover .ruban-piste { animation-play-state: paused; }
+@keyframes ruban { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* Le mot d'Anatole : plein cadre, sur la photo du sentier, le texte qui se révèle mot à mot. */
+body.accueil main > section.mot-anatole { position: relative; max-width: none; margin-top: clamp(110px, 16vh, 170px); padding: clamp(110px, 18vh, 200px) clamp(20px, 4vw, 56px); overflow: hidden; isolation: isolate; text-align: center; }
+.mot-fond { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; z-index: -2; transform: scale(1.06); animation: derive 28s ease-in-out infinite alternate; }
+@keyframes derive { from { transform: scale(1.06) translateY(0); } to { transform: scale(1.12) translateY(-2%); } }
+.mot-voile { position: absolute; inset: 0; z-index: -1; background: rgba(10, 33, 31, 0.7); }
+.mot-contenu { position: relative; max-width: 900px; margin: 0 auto; }
+body.accueil .mot-anatole h2.surtitre { font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; color: var(--anis) !important; max-width: none; margin: 0 0 22px; }
+body.accueil .mot-anatole blockquote p { color: #F7F9F2 !important; font-size: clamp(1.7rem, 3.4vw, 2.9rem) !important; line-height: 1.22; }
+.mot-anatole .parole { transition: opacity .5s var(--courbe); }
+.sans-mouvement .mot-anatole .parole { opacity: 1 !important; }
+body.accueil .mot-anatole .signe { color: rgba(247, 249, 242, 0.75) !important; }
+body.accueil .mot-anatole .signe a { color: var(--anis); }
+
+/* La fin : le cercle qui respire revient, en plus petit, derrière le dernier bouton. */
+.fin { position: relative; }
+.fin .actions { position: relative; z-index: 1; }
+
+/* Moins d'animation demandée : tout est en place, rien ne bouge. */
+@media (prefers-reduced-motion: reduce) {
+  .ruban-piste { animation: none; }
+  .mot-fond { animation: none; }
+  .bouton, .lien-doux, .nav-cta { transition: none; }
+}
+
+/* ── Le système de la page (compétence landing-page-design, 2 novembre) ──
+   Espacements sur la grille 8, 12, 16, 24, 32, 40, 48, 64, 80, 96 ; pas de mot seul en fin de ligne ;
+   une seule action au-dessus de la ligne de flottaison, la preuve juste dessous ; la FAQ avant
+   le dernier bouton. */
+body.accueil h1, body.accueil h2, body.accueil .mot-anatole blockquote p { text-wrap: balance; }
+body.accueil p, body.accueil li { text-wrap: pretty; }
+body.accueil h1 { max-width: 15ch; }
+.chapeau { max-width: 680px; }
+.ouverture { padding-top: 64px; }
+.bloc, .mosaique-bloc { padding-top: 96px; }
+body.accueil main > section.mot-anatole { margin-top: 96px; padding-top: 96px; padding-bottom: 96px; }
+.fin { padding-top: 96px; padding-bottom: 48px; }
+.chiffres { margin-top: 80px; }
+.chiffre { padding: 24px; }
+.mosaique { gap: 16px; }
+.actions { margin-top: 32px; gap: 16px; }
+@media (max-width: 720px) { .bloc, .mosaique-bloc, .fin { padding-top: 64px; } .chiffres { margin-top: 48px; } body.accueil main > section.mot-anatole { margin-top: 64px; padding-top: 64px; padding-bottom: 64px; } }
+body.accueil .preuve-ligne { margin: 16px auto 0; font-size: .875rem !important; color: var(--texte-doux); }
+body.accueil .preuve-ligne a { color: var(--foret); }
+
+/* La FAQ : six questions, chacune dans un cadre fermé de tous côtés, le signe qui tourne. */
+.faq { padding-top: 96px; text-align: center; }
+body.accueil .faq h2 { margin: 0 auto 32px; max-width: 18ch; }
+.faq-liste { max-width: 760px; margin: 0 auto; text-align: left; display: grid; gap: 8px; }
+.faq details { border: 1px solid var(--trait); border-radius: 16px; background: rgba(255, 255, 255, 0.5); transition: background .3s var(--courbe); }
+.faq details:hover { background: rgba(255, 255, 255, 0.85); }
+.faq summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 24px; font-weight: 600; font-size: 1rem; line-height: 1.5; color: var(--texte); border-radius: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; flex: none; width: 12px; height: 12px; background: linear-gradient(var(--foret), var(--foret)) center / 12px 2px no-repeat, linear-gradient(var(--foret), var(--foret)) center / 2px 12px no-repeat; transition: transform .5s var(--courbe); }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq summary:focus-visible { outline: 3px solid var(--foret); outline-offset: 2px; }
+body.accueil .faq details p { margin: 0; padding: 0 24px 16px; font-size: 1rem !important; line-height: 1.6; }
+@media (max-width: 720px) { .faq { padding-top: 64px; } }
+
+/* ── À la lettre (B5, B7) : le titre du héros en dégradé de texte, le menu mobile en panneau ── */
+body.accueil .ouverture h1 { background: linear-gradient(90deg, #000000, #666666); -webkit-background-clip: text; background-clip: text; color: transparent; }
+body.accueil .ouverture h1 .accent { color: transparent; }

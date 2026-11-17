@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#120807">
+<title>Replere · Après l'effort (prototype)</title>
+<style>
+@font-face{font-family:"Instrument Serif";src:url(../fonts/instrument-serif-400.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Instrument Serif";font-style:italic;src:url(../fonts/instrument-serif-400-italic.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Inter";src:url(../fonts/inter-var.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{--lime:#D8FF85;--paper:#F7F9F2;--night:#0A211F}
+*{box-sizing:border-box;margin:0}
+html{background:#120807}
+body{font-family:Inter,system-ui,sans-serif;color:var(--paper);background:#120807;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+canvas#scene{position:fixed;inset:0;width:100vw;height:100vh;display:block;z-index:0;touch-action:pan-y}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.hud{position:fixed;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:flex-start;padding:max(16px,env(safe-area-inset-top)) 20px 30px;z-index:4;pointer-events:none;background:linear-gradient(rgba(8,10,10,.55),rgba(8,10,10,0))}
+.hud .left{display:flex;flex-direction:column;gap:5px}
+.logo{font-family:"Instrument Serif",serif;font-size:23px}
+.stage{opacity:.7}
+.hud .right{display:flex;align-items:center;gap:14px}
+.bpm{display:flex;gap:8px;align-items:baseline;font-variant-numeric:tabular-nums}
+.bpm b{font-family:"Instrument Serif",serif;font-weight:400;font-size:36px;color:#ffb36b;transition:color .8s}
+.sound{pointer-events:auto;cursor:pointer;border:1px solid rgba(247,249,242,.3);background:rgba(10,20,18,.35);color:var(--paper);border-radius:99px;padding:8px 12px;display:flex;gap:8px;align-items:center;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.sound i{display:flex;gap:2px;align-items:flex-end;height:12px}
+.sound i s{width:2px;background:currentColor;height:4px;border-radius:1px}
+.sound.on i s{animation:eq 1.1s ease-in-out infinite}
+.sound.on i s:nth-child(2){animation-delay:.2s}.sound.on i s:nth-child(3){animation-delay:.45s}
+@keyframes eq{0%,100%{height:3px}50%{height:12px}}
+.glass{background:rgba(10,24,22,.32);border:1px solid rgba(247,249,242,.16);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);border-radius:16px}
+.tele{position:fixed;left:20px;bottom:max(46px,calc(env(safe-area-inset-bottom) + 38px));z-index:4;padding:12px 14px;width:min(350px,calc(100vw - 40px));pointer-events:none}
+.tele .row{display:flex;justify-content:space-between;align-items:center;gap:10px;white-space:nowrap}
+.tele canvas{display:block;width:100%;height:36px;margin:8px 0 10px}
+.zone{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border-radius:99px;background:rgba(226,85,42,.9);color:#fff;transition:background .8s,color .8s}
+.zone::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.prog{position:fixed;left:20px;right:20px;bottom:max(18px,env(safe-area-inset-bottom));z-index:4;display:flex;gap:6px;pointer-events:none}
+.prog i{flex:1;height:2px;background:rgba(247,249,242,.18);border-radius:2px;overflow:hidden;position:relative}
+.prog i b{position:absolute;inset:0;transform-origin:left;transform:scaleX(0);background:var(--lime)}
+.live{position:fixed;right:clamp(60px,8vw,140px);top:50%;width:min(240px,26vh);aspect-ratio:9/19.5;translate:0 -50%;z-index:2;border-radius:40px;padding:8px;background:#0c0d0e;box-shadow:0 50px 120px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.1) inset;pointer-events:none}
+.live .scr{height:100%;border-radius:33px;background:linear-gradient(170deg,#1d4a42,#0A211F 55%);padding:44px 16px 16px;display:flex;flex-direction:column;align-items:center;overflow:hidden;position:relative}
+.live .scr::before{content:"";position:absolute;top:10px;left:50%;width:30%;height:20px;translate:-50% 0;border-radius:14px;background:#000}
+.live .ttl{align-self:flex-start;font-family:"Instrument Serif",serif;font-size:20px}
+.live .sub{align-self:flex-start;opacity:.6;margin-top:2px;font-size:9px}
+.live .dial{position:relative;width:78%;aspect-ratio:1;margin:16px 0 auto}
+.live .dial svg{width:100%;height:100%}
+.live .dial div{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.live .num{font-family:"Instrument Serif",serif;font-size:clamp(30px,4.6vh,44px);line-height:1;font-variant-numeric:tabular-nums}
+.live .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%}
+.live .stats div{background:rgba(247,249,242,.07);border-radius:10px;padding:7px 6px}
+.live .stats b{display:block;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.live .stats small{font-size:8.5px;opacity:.6;letter-spacing:.08em;text-transform:uppercase}
+.guide{position:fixed;left:50%;bottom:24vh;translate:-50% 0;z-index:3;text-align:center;opacity:0;transition:opacity .6s;pointer-events:none;width:min(92vw,560px)}
+.guide .say{font-family:"Instrument Serif",serif;font-style:italic;font-size:clamp(28px,5vw,46px);text-shadow:0 2px 24px rgba(0,0,0,.5)}
+.guide .how{margin-top:10px;opacity:.75;line-height:1.6}
+.guide .count{display:flex;gap:8px;justify-content:center;margin-top:14px}
+.guide .count i{width:9px;height:9px;border-radius:50%;border:1px solid var(--lime);transition:background .4s}
+.guide .count i.on{background:var(--lime)}
+main{position:relative;z-index:1}
+section{min-height:150vh;display:flex;align-items:flex-start;padding:24vh 24px 0;max-width:1180px;margin:0 auto}
+section .t{max-width:31rem}
+.k{color:var(--lime);margin-bottom:16px}
+h1,h2{font-family:"Instrument Serif",serif;font-weight:400;line-height:1;letter-spacing:-.012em;text-shadow:0 2px 34px rgba(0,0,0,.45)}
+h1{font-size:clamp(50px,9.4vw,118px)}
+h2{font-size:clamp(38px,6.6vw,80px)}
+h1 em,h2 em{color:var(--lime)}
+p.l{font-size:clamp(16px,1.55vw,19px);line-height:1.6;margin-top:20px;opacity:.9;max-width:29rem;text-shadow:0 1px 18px rgba(0,0,0,.6)}
+.right{justify-content:flex-end}
+.breath{min-height:330vh}
+.fin{min-height:130vh;align-items:center;padding-top:0;gap:56px;flex-wrap:wrap}
+.phone{width:min(290px,70vw,calc(78vh * 1320 / 2868));aspect-ratio:1320/2868;border-radius:44px;padding:9px;background:#111;box-shadow:0 40px 120px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08) inset;transform:translateY(60px) rotate(-5deg);opacity:0;transition:transform 1.4s cubic-bezier(.2,.8,.2,1),opacity 1.4s}
+.phone.on{transform:none;opacity:1}
+.phone img{width:100%;height:100%;object-fit:cover;border-radius:36px;display:block}
+.cta{display:inline-block;margin-top:30px;background:var(--lime);color:var(--night);font-weight:600;padding:16px 26px;border-radius:99px;text-decoration:none;box-shadow:0 0 40px rgba(216,255,133,.35)}
+.cta:active{transform:scale(.97)}
+.note{font-size:12px;opacity:.55;margin-top:14px}
+.cue{position:fixed;left:50%;bottom:44px;width:44px;height:44px;margin-left:-22px;border-radius:50%;border:1px solid rgba(247,249,242,.45);z-index:3;display:grid;place-items:center;pointer-events:none;transition:opacity .6s}
+.cue span{width:2px;height:12px;background:var(--paper);border-radius:2px;animation:drop 2.2s ease-in-out infinite}
+@keyframes drop{0%{transform:translateY(-6px);opacity:0}40%{opacity:1}100%{transform:translateY(8px);opacity:0}}
+.veil{position:fixed;inset:0;z-index:5;background:#120807;display:grid;place-items:center;transition:opacity 1.4s;pointer-events:none}
+.veil span{font-family:"Instrument Serif",serif;font-style:italic;font-size:22px;opacity:.7}
+@media (min-width:900px){.tele{left:auto;right:20px}.live{top:43%}}
+@media (max-width:899px){.live,.cue{display:none}.tele{right:20px;width:auto}.tele canvas{height:26px;margin:6px 0 8px}.guide{bottom:30vh}.sound span{display:none}}
+@media (prefers-reduced-motion:reduce){.phone{transition:none}.cue span,.sound.on i s{animation:none}}
+</style>
+</head>
+<body>
+<canvas id="scene" aria-hidden="true"></canvas>
+<div class="veil" id="veil"><span>Fin de la sortie…</span></div>
+
+<div class="hud">
+  <span class="left" aria-hidden="true"><span class="logo">Replere</span><span class="mono stage" id="stage">01 / 05 · Fin de sortie</span></span>
+  <span class="right">
+    <span class="mono bpm" aria-hidden="true">Cœur <b id="bpm">165</b> bpm</span>
+    <button class="mono sound" id="sound" type="button" aria-pressed="false"><i aria-hidden="true"><s></s><s></s><s></s></i><span>Son</span></button>
+  </span>
+</div>
+
+<div class="guide" id="guide" aria-live="polite">
+  <div class="say" id="say">Maintenez pour inspirer</div>
+  <div class="mono how" id="how">Doigt maintenu, clic ou Espace : inspirer · relâcher : expirer</div>
+  <div class="count" aria-hidden="true"><i></i><i></i><i></i></div>
+</div>
+<div class="cue" id="cue" aria-hidden="true"><span></span></div>
+
+<div class="tele glass" aria-hidden="true">
+  <div class="row"><span class="mono" style="opacity:.75">Pouls · <span id="tbpm">165</span> bpm</span><span class="mono zone" id="zone">Zone 4 · Tempo</span></div>
+  <canvas id="ecg"></canvas>
+  <div class="row mono" style="opacity:.6"><span>Max 178</span><span>Moy. 152</span><span id="clock">0:00</span></div>
+</div>
+
+<div class="live" id="live" aria-hidden="true"><div class="scr">
+  <span class="ttl">Redescendre</span><span class="mono sub">90 s · debout</span>
+  <div class="dial"><svg viewBox="0 0 170 170"><circle cx="85" cy="85" r="74" fill="none" stroke="rgba(247,249,242,.12)" stroke-width="8"/><circle id="arc" cx="85" cy="85" r="74" fill="none" stroke="#e2552a" stroke-width="8" stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="40" transform="rotate(-90 85 85)"/></svg>
+    <div><span class="num" id="lnum">165</span><span class="mono" style="opacity:.6;font-size:9px;margin-top:4px">bpm</span></div></div>
+  <div class="stats"><div><b id="ldrop">0</b><small>écart</small></div><div><b>178</b><small>max</small></div><div><b id="lclock">0:00</b><small>temps</small></div></div>
+</div></div>
+
+<div class="prog" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+
+<main>
+  <section>
+    <div class="t">
+      <p class="mono k">Fin de la sortie</p>
+      <h1>Vous arrêtez<br>la montre.<br><em>Pas le corps.</em></h1>
+      <p class="l">Le cœur bat encore à 165, le souffle est court, la tête tourne. On soigne l'entraînement, et très peu les minutes qui suivent.</p>
+    </div>
+  </section>
+
+  <section class="right">
+    <div class="t">
+      <p class="mono k">Le chemin du retour</p>
+      <h2>Ralentissez.<br><em>Souffle</em> vous attend<br>un peu plus loin.</h2>
+      <p class="l">Faites défiler doucement. Pas plus vite que votre respiration.</p>
+    </div>
+  </section>
+
+  <section class="breath" aria-label="Trois respirations guidées">
+    <div class="t">
+      <p class="mono k">Trois respirations</p>
+      <h2>Le monde<br><em>ralentit.</em></h2>
+      <p class="l">Inspirez par le nez en maintenant le doigt. Relâchez, et laissez l'air sortir un peu plus longtemps qu'il n'est entré.</p>
+    </div>
+  </section>
+
+  <section class="right">
+    <div class="t">
+      <p class="mono k">90 secondes plus tard</p>
+      <h2>Le cœur est<br><em>redescendu.</em></h2>
+      <p class="l">L'expiration plus longue que l'inspiration aide le cœur à ralentir après l'effort. Replere vous guide de la voix, juste après la séance, debout ou assis, montre au poignet ou non.</p>
+    </div>
+  </section>
+
+  <section class="fin">
+    <div class="phone" id="phone"><img src="seance.jpg" alt="L'écran de séance de Replere : « Expirez », la minute en cours et le cœur mesuré" loading="lazy"></div>
+    <div class="t">
+      <p class="mono k">Replere · iPhone</p>
+      <h2>Après le sport,<br><em>respirez.</em></h2>
+      <p class="l">Tous les sports. De 90 secondes à quelques minutes. Gratuit pendant la bêta.</p>
+      <a class="cta" href="https://testflight.apple.com/join/Gd9Skxgv">Rejoindre la bêta</a>
+      <p class="note">Prototype. Rien n'est enregistré sur cette page.</p>
+    </div>
+  </section>
+</main>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from "three";
+
+const $ = id => document.getElementById(id);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const small = matchMedia("(max-width: 899px)").matches;
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+const mix = (a, b, t) => a + (b - a) * t;
+
+// ─── État partagé : défilement, souffle, cœur ─────────────────────────────────
+const state = { p: 0, pTarget: 0, breath: 0, hold: false, holdLevel: 0, breaths: 0, wasFull: false, inBreath: false, bpm: 165, calm: 0 };
+const breathSection = document.querySelector(".breath");
+const sections = [...document.querySelectorAll("main section")];
+
+function readScroll() {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  state.pTarget = max > 0 ? scrollY / max : 0;
+  const r = breathSection.getBoundingClientRect();
+  state.inBreath = r.top < innerHeight * 0.45 && r.bottom > innerHeight * 0.75;
+  if (state.pTarget > 0.86) $("phone").classList.add("on");
+}
+addEventListener("scroll", readScroll, { passive: true });
+readScroll();
+
+// Maintenir = inspirer, relâcher = expirer (doigt, souris ou barre d'espace).
+const isControl = e => e.target.closest && e.target.closest("a,button");
+addEventListener("pointerdown", e => { if (!isControl(e)) state.hold = true; });
+addEventListener("pointerup", () => { state.hold = false; });
+addEventListener("pointercancel", () => { state.hold = false; });
+addEventListener("keydown", e => { if (e.code === "Space" && state.inBreath) { e.preventDefault(); state.hold = true; } });
+addEventListener("keyup", e => { if (e.code === "Space") state.hold = false; });
+
+// ─── Le son (facultatif) : une nappe et un souffle de vent qui suivent la respiration ──
+let audio = null;
+$("sound").addEventListener("click", () => {
+  if (!audio) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
+    const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 600; lp.Q.value = 0.7; lp.connect(master);
+    [110, 164.8, 220.5, 277.2].forEach((f, i) => {
+      const o = ctx.createOscillator(); o.type = i % 2 ? "triangle" : "sine"; o.frequency.value = f; o.detune.value = (i - 1.5) * 6;
+      const g = ctx.createGain(); g.gain.value = i === 0 ? 0.22 : 0.09; o.connect(g); g.connect(lp); o.start();
+    });
+    const len = ctx.sampleRate * 2, buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    const noise = ctx.createBufferSource(); noise.buffer = buf; noise.loop = true;
+    const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 900; bp.Q.value = 0.6;
+    const ng = ctx.createGain(); ng.gain.value = 0; noise.connect(bp); bp.connect(ng); ng.connect(master); noise.start();
+    audio = { ctx, master, lp, ng, bp, on: false, prev: 0 };
+  }
+  audio.on = !audio.on;
+  if (audio.ctx.state === "suspended") audio.ctx.resume();
+  audio.master.gain.setTargetAtTime(audio.on ? 0.5 : 0, audio.ctx.currentTime, 0.6);
+  $("sound").classList.toggle("on", audio.on);
+  $("sound").setAttribute("aria-pressed", String(audio.on));
+});
+
+// ─── L'interface : cœur, zone, tracé, étapes, téléphone, guide ────────────────
+{
+  const names = ["Fin de sortie", "Le chemin du retour", "Trois respirations", "Redescendu", "Replere"];
+  const bars = [...document.querySelectorAll(".prog b")], dots = [...document.querySelectorAll(".guide .count i")];
+  const ecg = $("ecg"), g = ecg.getContext("2d");
+  let last = performance.now(), sinceBeat = 0, trace = [], stageShown = -1, mx = 0, my = 0, bonus = 0, uiP = 0, veilDone = false;
+  addEventListener("pointermove", e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; }, { passive: true });
+  function sizeEcg() { const r = devicePixelRatio || 1; ecg.width = ecg.clientWidth * r; ecg.height = ecg.clientHeight * r; trace = new Array(Math.max(10, Math.ceil(ecg.clientWidth))).fill(0); }
+  addEventListener("resize", sizeEcg); sizeEcg();
+  const beat = x => x < .08 ? Math.sin(x / .08 * Math.PI) * .12 : x < .14 ? -(x - .08) / .06 * .2 : x < .2 ? -.2 + (x - .14) / .06 * 1.2 : x < .27 ? 1 - (x - .2) / .07 * 1.35 : x < .33 ? -.35 + (x - .27) / .06 * .35 : x < .55 ? Math.sin((x - .33) / .22 * Math.PI) * .18 : 0;
+  function tick(now) {
+    const dt = Math.min((now - last) / 1000, .05); last = now;
+    uiP += (state.pTarget - uiP) * (reduce ? 1 : Math.min(1, dt * 3));
+
+    // La respiration au doigt : l'inspiration monte en ~4 s, l'expiration descend en ~6 s.
+    const target = state.hold ? 1 : 0;
+    state.holdLevel += (target - state.holdLevel) * Math.min(1, dt * (state.hold ? 0.55 : 0.38));
+    if (state.inBreath) {
+      if (state.holdLevel > 0.82) state.wasFull = true;
+      if (state.wasFull && state.holdLevel < 0.18) { state.wasFull = false; state.breaths = Math.min(3, state.breaths + 1); try { navigator.userActivation?.hasBeenActive && navigator.vibrate?.(18); } catch (e) {} }
+    }
+    const auto = reduce ? 0.5 : 0.5 + 0.5 * Math.sin(now / 1000 * Math.PI / 5);
+    state.breath = state.inBreath ? state.holdLevel : auto;
+
+    // Chaque respiration faite avec le doigt fait redescendre le cœur un peu plus vite.
+    bonus += ((state.breaths / 3) * 0.12 - bonus) * Math.min(1, dt * 1.5);
+    const prog = clamp(smooth(.1, .8, uiP) + bonus);
+    state.calm = smooth(.12, .74, uiP + bonus * .6);
+    const bpm = Math.round(mix(165, 98, prog)); state.bpm = bpm;
+
+    let idx = 0; sections.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * .5) idx = i; });
+    if (idx !== stageShown) { stageShown = idx; $("stage").textContent = `0${idx + 1} / 05 · ${names[idx]}`; }
+    sections.forEach((s, i) => { const r = s.getBoundingClientRect(); bars[i].style.transform = `scaleX(${clamp((innerHeight * .5 - r.top) / r.height)})`; });
+
+    $("bpm").textContent = bpm; $("tbpm").textContent = bpm; $("lnum").textContent = bpm;
+    $("ldrop").textContent = bpm < 165 ? `−${165 - bpm}` : "0";
+    $("bpm").style.color = bpm > 125 ? "#ffb36b" : "#D8FF85";
+    const z = bpm > 150 ? ["Zone 4 · Tempo", "rgba(226,85,42,.92)", "#fff"] : bpm > 130 ? ["Zone 3 · Endurance", "rgba(240,150,60,.92)", "#2a1205"] : bpm > 110 ? ["Zone 2 · Retour", "rgba(170,210,120,.92)", "#10230b"] : ["Zone 1 · Repos", "#D8FF85", "#0A211F"];
+    const zone = $("zone"); if (zone.textContent !== z[0]) { zone.textContent = z[0]; zone.style.background = z[1]; zone.style.color = z[2]; }
+    const secs = Math.round(prog * 90), clk = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, "0")}`;
+    $("clock").textContent = clk; $("lclock").textContent = clk;
+    const warm = clamp((bpm - 98) / 67), arc = $("arc");
+    arc.style.stroke = warm > .5 ? "#e2552a" : "#D8FF85"; arc.setAttribute("stroke-dashoffset", String(465 * (1 - (.2 + .8 * warm))));
+
+    // Le téléphone flotte au début, puis s'éloigne quand on prend le chemin
+    const out = smooth(.04, .15, uiP), live = $("live");
+    live.style.opacity = 1 - out;
+    live.style.transform = reduce ? "none" : `perspective(1100px) translate3d(0,${out * -80}px,0) rotateY(${-18 + mx * 12}deg) rotateX(${7 - my * 9}deg) rotateZ(${3 + out * 8}deg)`;
+    $("cue").style.opacity = uiP > .88 ? 0 : 1;
+
+    // Le guide des trois respirations
+    $("guide").style.opacity = state.inBreath ? 1 : 0;
+    if (state.inBreath) {
+      const done = state.breaths >= 3;
+      $("say").textContent = done ? "Votre cœur ralentit déjà." : state.hold ? (state.holdLevel > .85 ? "Gardez l'air un instant…" : "Inspirez…") : (state.holdLevel > .2 ? "Expirez, plus longtemps…" : "Maintenez pour inspirer");
+      $("how").textContent = done ? "Continuez à faire défiler" : "Doigt maintenu, clic ou Espace : inspirer · relâcher : expirer";
+      dots.forEach((d, i) => d.classList.toggle("on", i < state.breaths));
+    }
+
+    // Le son suit le souffle
+    if (audio && audio.on) {
+      const ct = audio.ctx.currentTime, br = state.breath;
+      audio.lp.frequency.setTargetAtTime(mix(380, 1300, br) * mix(1, .7, state.calm), ct, .3);
+      audio.ng.gain.setTargetAtTime(Math.min(.25, Math.abs(br - audio.prev) / Math.max(dt, .001) * .35) + .006, ct, .25);
+      audio.bp.frequency.setTargetAtTime(state.hold ? 1200 : 700, ct, .4);
+      audio.prev = br;
+    }
+
+    // Le tracé du pouls défile au vrai rythme du cœur
+    if (!reduce) {
+      const speed = 70, steps = Math.max(1, Math.round(dt * speed)), period = 60 / bpm;
+      for (let k = 0; k < steps; k++) { sinceBeat += 1 / speed; if (sinceBeat >= period) sinceBeat -= period; trace.push(beat(sinceBeat / period)); trace.shift(); }
+    }
+    const w = ecg.width, h = ecg.height, r = devicePixelRatio || 1;
+    g.clearRect(0, 0, w, h); g.lineWidth = 1.6 * r; g.strokeStyle = warm > .5 ? "#ffb36b" : "#D8FF85"; g.beginPath();
+    trace.forEach((v, i) => { const X = i * r, Y = h * .62 - v * h * .5; i ? g.lineTo(X, Y) : g.moveTo(X, Y); }); g.stroke();
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+  setTimeout(() => { $("veil").style.opacity = 0; }, 700);
+}
+
+// ─── Bruit pour le relief ─────────────────────────────────────────────────────
+const perm = new Uint8Array(512);
+{ const q = [...Array(256).keys()]; let s = 7; for (let i = 255; i > 0; i--) { s = (s * 16807) % 2147483647; const j = s % (i + 1); [q[i], q[j]] = [q[j], q[i]]; } for (let i = 0; i < 512; i++) perm[i] = q[i & 255]; }
+const fade = t => t * t * t * (t * (t * 6 - 15) + 10);
+function grad(hh, x, y) { const g = hh & 7; const u = g < 4 ? x : y, v = g < 4 ? y : x; return ((g & 1) ? -u : u) + ((g & 2) ? -2 * v : 2 * v); }
+function noise2(x, y) {
+  const X = Math.floor(x) & 255, Y = Math.floor(y) & 255; x -= Math.floor(x); y -= Math.floor(y);
+  const u = fade(x), v = fade(y), a = perm[X] + Y, b = perm[X + 1] + Y;
+  return mix(mix(grad(perm[a], x, y), grad(perm[b], x - 1, y), u), mix(grad(perm[a + 1], x, y - 1), grad(perm[b + 1], x - 1, y - 1), u), v) * 0.5;
+}
+function fbm(x, y) { let s = 0, a = 1, f = 1; for (let i = 0; i < 5; i++) { s += a * noise2(x * f, y * f); a *= 0.5; f *= 2.03; } return s; }
+// Le sentier serpente ; la vallée se creuse autour de lui.
+const trailX = z => Math.sin(z * 0.014) * 16 + Math.sin(z * 0.043 + 1.3) * 5;
+function height(x, z) {
+  const ridge = 1 - Math.abs(fbm(x * 0.012, z * 0.012));
+  const hgt = fbm(x * 0.02 + 3, z * 0.02) * 16 + ridge * ridge * 30 - 6;
+  const d = Math.abs(x - trailX(z));
+  return mix(fbm(x * 0.05, z * 0.05) * 1.2, hgt, smooth(5, 34, d)) + d * 0.04;
+}
+
+// ─── La scène 3D ──────────────────────────────────────────────────────────────
+const canvas = $("scene");
+let renderer = null;
+try { renderer = new THREE.WebGLRenderer({ canvas, antialias: !small, powerPreference: "high-performance" }); } catch (e) { canvas.remove(); }
+
+const Z0 = 60, Z1 = -330;
+// La caméra avance sur le sentier ; elle s'arrête presque pendant les trois respirations, avec Souffle.
+const pathZ = p => mix(Z0, Z1, smooth(0, 0.3, p) * 0.55 + smooth(0.62, 0.9, p) * 0.45);
+
+if (renderer) {
+  renderer.setPixelRatio(Math.min(devicePixelRatio, small ? 1.25 : 1.75));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(58, 1, 0.5, 900);
+
+  const U = {
+    uSkyTop: { value: new THREE.Color() }, uSkyMid: { value: new THREE.Color() }, uSkyLow: { value: new THREE.Color() },
+    uSun: { value: new THREE.Vector3() }, uSunCol: { value: new THREE.Color() }, uFog: { value: new THREE.Color() },
+    uGround: { value: new THREE.Color() }, uRock: { value: new THREE.Color() }, uGrass: { value: new THREE.Color() },
+    uStars: { value: 0 }, uTime: { value: 0 }, uCam: { value: new THREE.Vector3() }, uTrail: { value: new THREE.Color("#D8FF85") }
+  };
+  const P = {
+    top: ["#2b0b18", "#020807"], mid: ["#c9431f", "#0b2c28"], low: ["#ffae5c", "#174a40"], sun: ["#ffcf8a", "#cfe8d8"],
+    fog: ["#b04a2c", "#0d2a26"], ground: ["#2a1410", "#06120f"], rock: ["#5a2a20", "#12302a"], grass: ["#3e2414", "#0b231d"]
+  };
+  const pal = Object.fromEntries(Object.entries(P).map(([k, v]) => [k, v.map(c => new THREE.Color(c))]));
+  const setMix = (u, k, t) => u.value.copy(pal[k][0]).lerp(pal[k][1], t);
+
+  // Ciel : dégradé, soleil, étoiles qui scintillent à la nuit
+  scene.add(new THREE.Mesh(new THREE.SphereGeometry(800, 48, 24), new THREE.ShaderMaterial({
+    side: THREE.BackSide, depthWrite: false, uniforms: U,
+    vertexShader: `varying vec3 vDir; void main(){ vDir = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.); }`,
+    fragmentShader: `uniform vec3 uSkyTop,uSkyMid,uSkyLow,uSun,uSunCol; uniform float uStars,uTime; varying vec3 vDir;
+      float h(vec3 p){ return fract(sin(dot(p, vec3(127.1,311.7,74.7)))*43758.5453); }
+      void main(){
+        float y = vDir.y;
+        vec3 c = y > 0.04 ? mix(uSkyMid, uSkyTop, smoothstep(0.04, 0.6, y)) : mix(uSkyLow, uSkyMid, smoothstep(-0.15, 0.04, y));
+        float s = max(dot(vDir, normalize(uSun)), 0.);
+        c += uSunCol * (pow(s, 900.) * 3. + pow(s, 24.) * .45 + pow(s, 4.) * .12);
+        vec3 g = floor(vDir * 420.); float st = step(.9975, h(g)) * smoothstep(.05, .35, y);
+        c += vec3(st) * uStars * (.6 + .4 * sin(uTime * 2. + h(g) * 40.));
+        gl_FragColor = vec4(c, 1.);
+      }`
+  })));
+
+  // Relief : montagnes générées, vallée creusée autour du sentier
+  const W = 420, L = 520, sx = small ? 110 : 200, sz = small ? 140 : 260;
+  const tg = new THREE.PlaneGeometry(W, L, sx, sz); tg.rotateX(-Math.PI / 2); tg.translate(0, 0, -(L / 2) + 90);
+  const tp = tg.attributes.position;
+  for (let i = 0; i < tp.count; i++) tp.setY(i, height(tp.getX(i), tp.getZ(i)));
+  tg.computeVertexNormals();
+  scene.add(new THREE.Mesh(tg, new THREE.ShaderMaterial({
+    uniforms: U,
+    vertexShader: `varying vec3 vN; varying vec3 vP; void main(){ vN = normal; vP = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.); }`,
+    fragmentShader: `uniform vec3 uSun,uSunCol,uFog,uGround,uRock,uGrass,uCam,uSkyLow; varying vec3 vN; varying vec3 vP;
+      void main(){
+        vec3 n = normalize(vN); float slope = 1. - n.y;
+        vec3 base = mix(uGrass, uRock, smoothstep(.18, .55, slope));
+        base = mix(base, uGround, smoothstep(10., -4., vP.y) * .6);
+        float diff = max(dot(n, normalize(uSun)), 0.);
+        float rim = pow(1. - max(dot(n, normalize(uCam - vP)), 0.), 3.);
+        vec3 c = base * (.35 + diff * 1.1 * uSunCol) + uSkyLow * rim * .18;
+        float fog = 1. - exp(-pow(length(uCam - vP) * .0042, 1.6));
+        gl_FragColor = vec4(mix(c, uFog, fog), 1.);
+      }`
+  })));
+
+  // Le sentier lumineux, qui pulse doucement
+  const pts = []; for (let z = Z0 + 30; z >= Z1 - 60; z -= 4) pts.push(new THREE.Vector3(trailX(z), height(trailX(z), z) + 0.25, z));
+  scene.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), pts.length * 2, 0.11, 6), new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false, uniforms: U,
+    vertexShader: `varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.); }`,
+    fragmentShader: `uniform vec3 uTrail,uCam; uniform float uTime; varying vec3 vP;
+      void main(){ float d = length(uCam - vP); float pulse = .55 + .45 * sin(vP.z * .25 + uTime * 2.2);
+        gl_FragColor = vec4(uTrail * (.55 + .5 * pulse), smoothstep(320., 30., d) * smoothstep(4., 16., d) * .85); }`
+  })));
+
+  // Poussière et braises autour de la caméra
+  const N = reduce ? 0 : (small ? 500 : 1400);
+  const dust = new Float32Array(N * 3), seeds = new Float32Array(N);
+  for (let i = 0; i < N; i++) { dust[i * 3] = (Math.random() - .5) * 60; dust[i * 3 + 1] = Math.random() * 30 - 4; dust[i * 3 + 2] = (Math.random() - .5) * 80; seeds[i] = Math.random(); }
+  const dg = new THREE.BufferGeometry(); dg.setAttribute("position", new THREE.BufferAttribute(dust, 3));
+  const dot = document.createElement("canvas"); dot.width = dot.height = 64;
+  { const c = dot.getContext("2d"), gr = c.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(.35, "rgba(255,255,255,.55)"); gr.addColorStop(1, "rgba(255,255,255,0)"); c.fillStyle = gr; c.fillRect(0, 0, 64, 64); }
+  const dm = new THREE.PointsMaterial({ size: small ? 0.32 : 0.24, map: new THREE.CanvasTexture(dot), color: "#ffb36b", transparent: true, opacity: .8, depthWrite: false, blending: THREE.AdditiveBlending });
+  const motes = new THREE.Points(dg, dm); scene.add(motes);
+  const warmC = new THREE.Color("#ffb36b"), coolC = new THREE.Color("#D8FF85");
+
+  // Souffle : la mascotte, son aura et l'anneau du souffle, toujours face à nous
+  const souffleGroup = new THREE.Group(); scene.add(souffleGroup);
+  const tex = new THREE.TextureLoader().load("souffle.png"); tex.colorSpace = THREE.SRGBColorSpace;
+  const souffle = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false, toneMapped: false, color: new THREE.Color(.82, .82, .82) }));
+  souffleGroup.add(souffle);
+  const auraMat = new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.BackSide,
+    uniforms: { uO: { value: 0 }, uC: { value: new THREE.Color("#D8FF85") } },
+    vertexShader: `varying vec3 vN; varying vec3 vV; void main(){ vN = normalize(normalMatrix * normal); vec4 mv = modelViewMatrix * vec4(position,1.); vV = normalize(-mv.xyz); gl_Position = projectionMatrix * mv; }`,
+    fragmentShader: `uniform float uO; uniform vec3 uC; varying vec3 vN; varying vec3 vV; void main(){ float f = pow(1. - abs(dot(vN, vV)), 2.2); gl_FragColor = vec4(uC * f * .9, f * uO); }`
+  });
+  const aura = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), auraMat); souffleGroup.add(aura);
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(1, 0.012, 8, 160), new THREE.MeshBasicMaterial({ color: "#D8FF85", transparent: true, opacity: 0 }));
+  souffleGroup.add(ring);
+  souffle.renderOrder = 3; aura.renderOrder = 1; ring.renderOrder = 2;
+
+  // Halo lumineux (ordinateur seulement)
+  let composer = null, bloom = null;
+  if (!small && !reduce) {
+    try {
+      const [{ EffectComposer }, { RenderPass }, { UnrealBloomPass }, { OutputPass }] = await Promise.all([
+        import("three/addons/postprocessing/EffectComposer.js"), import("three/addons/postprocessing/RenderPass.js"),
+        import("three/addons/postprocessing/UnrealBloomPass.js"), import("three/addons/postprocessing/OutputPass.js")]);
+      composer = new EffectComposer(renderer);
+      composer.addPass(new RenderPass(scene, camera));
+      bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.6, 0.5, 0.86);
+      composer.addPass(bloom);
+      composer.addPass(new OutputPass());
+    } catch (e) { composer = null; }
+  }
+
+  function resize() {
+    const w = innerWidth, h = innerHeight;
+    renderer.setSize(w, h, false); composer?.setSize(w, h);
+    camera.aspect = w / h; camera.fov = w / h < 0.8 ? 72 : 58; camera.updateProjectionMatrix();
+  }
+  addEventListener("resize", resize); resize();
+
+  const look = new THREE.Vector3(), fwd = new THREE.Vector3(), right = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
+  const clock = new THREE.Clock();
+  function frame() {
+    const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
+    state.p += (state.pTarget - state.p) * (reduce ? 1 : Math.min(1, dt * 3));
+    const p = state.p, k = state.calm;
+    U.uTime.value = t;
+
+    // Couleurs : crépuscule → nuit
+    for (const [u, key] of [[U.uSkyTop, "top"], [U.uSkyMid, "mid"], [U.uSkyLow, "low"], [U.uSunCol, "sun"], [U.uFog, "fog"], [U.uGround, "ground"], [U.uRock, "rock"], [U.uGrass, "grass"]]) setMix(u, key, k);
+    U.uSunCol.value.multiplyScalar(mix(1, .25, k));
+    U.uSun.value.set(-0.35, mix(0.16, -0.12, smooth(0, 0.6, p)), -1).normalize();
+    U.uStars.value = smooth(0.35, 0.75, p);
+
+    // Caméra sur le sentier, avec un balancement de course qui s'éteint avec le calme
+    const z = pathZ(p), bob = reduce ? 0 : (1 - k);
+    const gx = trailX(z), gy = height(gx, z);
+    camera.position.set(gx + Math.sin(t * 5.2) * 0.06 * bob, gy + 3.4 + Math.abs(Math.sin(t * 5.2)) * 0.18 * bob, z);
+    const za = z - 22; look.set(trailX(za), height(trailX(za), za) + 2.6 + k * 1.2, za);
+    camera.lookAt(look);
+    U.uCam.value.copy(camera.position);
+
+    // Souffle, posé devant nous sur le chemin ; elle se range à gauche quand le texte est à droite
+    camera.getWorldDirection(fwd); right.crossVectors(fwd, up).normalize();
+    const appear = smooth(0.17, 0.27, p), leave = 1 - smooth(0.84, 0.92, p);
+    const side = innerWidth / innerHeight > 1.1 ? mix(0, -2.4, smooth(0.6, 0.7, p)) : 0;
+    souffleGroup.position.copy(camera.position).addScaledVector(fwd, 11).addScaledVector(right, side);
+    souffleGroup.position.y += 0.9 + Math.sin(t * .7) * .08;
+    souffleGroup.quaternion.copy(camera.quaternion);
+    const b = state.breath;
+    const s = mix(1.55, 2.05, b) * mix(0.6, 1, appear);
+    souffle.scale.set(s, s, 1); souffle.material.opacity = appear * leave;
+    aura.scale.setScalar(mix(1.5, 2.3, b)); auraMat.uniforms.uO.value = appear * leave * mix(.25, .6, b);
+    ring.scale.setScalar(mix(1.7, 2.6, b)); ring.material.opacity = appear * leave * (state.inBreath ? .9 : .35);
+
+    // Poussière : agitée au début, lente et fraîche à la fin
+    if (N) {
+      const a = dg.attributes.position.array, sp = mix(3.2, 0.25, k), jit = mix(0.08, 0.004, k);
+      for (let i = 0; i < N; i++) { const j = i * 3; a[j + 1] += dt * sp * (.4 + seeds[i]); a[j] += Math.sin(t * 3 + seeds[i] * 50) * jit; if (a[j + 1] > 26) a[j + 1] = -4; }
+      dg.attributes.position.needsUpdate = true;
+      motes.position.set(camera.position.x, camera.position.y - 6, camera.position.z - 20);
+      dm.color.copy(warmC).lerp(coolC, k); dm.opacity = mix(.8, .5, k);
+    }
+
+    if (bloom) bloom.strength = mix(0.45, 0.75, k);
+    composer ? composer.render() : renderer.render(scene, camera);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+</script>
+</body>
+</html>
